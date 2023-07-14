@@ -41,11 +41,7 @@ def main():
     cameras = json.loads(data_res.text)['items'][0]['cameras']
 
     data = []
-    i = 0
     for camera in cameras:
-        if i == 10: break
-        i += 1
-
         tomtom_content = tomtom_traffic(camera['location']['latitude'], camera['location']['longitude'])
         # car, truck, bus, motorbike, tricycle = baidu_count_vehicles(camera['image'])
         car, truck, bus, motorbike, tricycle = my_count_vehicles(camera['image'])
