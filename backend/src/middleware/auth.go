@@ -25,7 +25,7 @@ func AUTHMiddleware() gin.HandlerFunc {
 		// Parse token and authentic
 		tokenParse, claims, err := utils.ParseToken(token)
 		if err != nil || !tokenParse.Valid {
-			output.Printer("Middleware", "Authentic fail. token invalid")
+			output.Print("Middleware", "Authentic fail. token invalid")
 			c.JSON(http.StatusUnauthorized, gin.H{
 				"code": consts.FAIL,
 				"msg":  "Authentic fail. No authority",
@@ -46,7 +46,7 @@ func AUTHMiddleware() gin.HandlerFunc {
 			}
 			// get userId in claims and judge
 			if userId == consts.NotExistId {
-				output.Printer("Middleware", "Authentic fail. empty ID")
+				output.Print("Middleware", "Authentic fail. empty ID")
 				c.JSON(http.StatusUnauthorized, gin.H{
 					"code": consts.SUCCESS,
 					"msg":  "Authentic fail. User not exist",
@@ -54,7 +54,7 @@ func AUTHMiddleware() gin.HandlerFunc {
 				})
 				c.Abort()
 			} else {
-				output.Printer("Middleware", "Authentic success. ID = "+string(userId))
+				output.Print("Middleware", "Authentic success. ID = "+string(userId))
 				// put userId into c for following process
 				c.Set("UserId", userId)
 				c.Next()

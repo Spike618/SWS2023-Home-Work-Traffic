@@ -17,7 +17,7 @@ func AdminLoginPost(c *gin.Context) {
 	var request model.RegisterLogin
 	//print(c.Query("Email"))
 	if err := c.BindJSON(&request); err != nil {
-		output.Printer(consts.Controller, "Body invalid")
+		output.Print(consts.Controller, "Body invalid")
 		c.JSON(http.StatusOK, gin.H{
 			"code": consts.FAIL,
 			"msg":  consts.InvalidRequest,
@@ -31,7 +31,7 @@ func AdminLoginPost(c *gin.Context) {
 	password := request.Password
 
 	// process user login
-	output.Printer(consts.Controller, email+" "+password)
+	output.Print(consts.Controller, email+" "+password)
 	c.JSON(http.StatusOK, gin.H{
 		"code": consts.SUCCESS,
 		"msg":  email + " login success",

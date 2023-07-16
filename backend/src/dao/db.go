@@ -21,20 +21,20 @@ func InitDb() {
 	db, err = sql.Open("mysql", "???")
 	if err != nil {
 		fmt.Println(err)
-		output.Printer("Dao", "Open database fail!")
+		output.Print("Dao", "Open database fail!")
 	}
 
 	// detect link state
 	err = db.Ping()
 	if err != nil {
-		output.Printer("Dao", "Database link fail!")
+		output.Print("Dao", "Database link fail!")
 		log.Fatal(err)
 	} else {
-		output.Printer("Dao", "Database link successfully.")
+		output.Print("Dao", "Database link successfully.")
 	}
 }
 
 func CloseDb() {
-	output.Printer("Dao", "Database close.")
+	output.Print("Dao", "Database close.")
 	db.Close()
 }
