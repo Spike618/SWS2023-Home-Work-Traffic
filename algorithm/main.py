@@ -3,10 +3,14 @@ import requests
 import json
 import base64
 import urllib
+import os
 import pandas as pd
 from datetime import datetime
 
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
+
 from count_vehicles import my_count_vehicles
+from numDetect import detect
 
 
 date_time = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
@@ -76,7 +80,8 @@ def main():
 
         tomtom_content = tomtom_traffic(camera['location']['latitude'], camera['location']['longitude'])
         # car, truck, bus, motorbike, tricycle = baidu_count_vehicles(camera['image'])
-        car, truck, bus, motorbike, tricycle = my_count_vehicles(camera['image'])
+        # car, truck, bus, motorbike, tricycle = my_count_vehicles(camera['image'])
+        car, truck, bus, motorbike, tricycle = detect(camera['image'])
 
         tomtom_congestion = cal_tomtom_congestion(tomtom_content['currentTravelTime'], tomtom_content['freeFlowTravelTime'])
         u = func_u(car + truck + bus)
