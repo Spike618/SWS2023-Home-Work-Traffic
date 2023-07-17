@@ -73,7 +73,8 @@ def my_count_vehicles(source):
     vid_stride=1  # video frame-rate stride
     car, truck, bus, motor, tricycle = 0, 0, 0, 0, 0
     source = str(source)
-    save_img = not nosave and not source.endswith('.txt')  # save inference images
+    # save_img = not nosave and not source.endswith('.txt')  # save inference images
+    save_img = False # don't save photos
     is_file = Path(source).suffix[1:] in (IMG_FORMATS + VID_FORMATS)
     is_url = source.lower().startswith(('rtsp://', 'rtmp://', 'http://', 'https://'))
     webcam = source.isnumeric() or source.endswith('.streams') or (is_url and not is_file)
@@ -163,5 +164,5 @@ def my_count_vehicles(source):
                         tricycle = n
                     if names[int(c)]=='truck':
                         truck = n
-            return car, truck, bus, motor, tricycle
+                return car, truck, bus, motor, tricycle
 
