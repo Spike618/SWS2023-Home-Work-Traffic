@@ -7,10 +7,9 @@ import os
 import pandas as pd
 from datetime import datetime
 
-os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
-
 from count_vehicles import my_count_vehicles
 
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 
 date_time = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
 data_url = 'https://api.data.gov.sg/v1/transport/traffic-images/'
