@@ -164,5 +164,6 @@ def my_count_vehicles(source):
                         tricycle = n
                     if names[int(c)]=='truck':
                         truck = n
-                return car, truck, bus, motor, tricycle
+            os.remove(source)
+            return car, truck, bus, motor, tricycle
 
