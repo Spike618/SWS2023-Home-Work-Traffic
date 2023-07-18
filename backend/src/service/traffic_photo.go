@@ -11,7 +11,6 @@ import (
 	"time"
 )
 
-<<<<<<< HEAD
 type ImageMetadata struct {
 	Height int    `json:"height"`
 	Width  int    `json:"width"`
@@ -45,8 +44,6 @@ type PhotoJson struct {
 	APIInfo APIInfo `json:"api_info"`
 }
 
-=======
->>>>>>> master
 var photoJson PhotoJson
 
 func RequestPhotosRecursively() {
@@ -94,39 +91,3 @@ func RequestPhotos() {
 
 	output.Print(consts.Service, "Handle photo successfully")
 }
-<<<<<<< HEAD
-=======
-
-type ImageMetadata struct {
-	Height int    `json:"height"`
-	Width  int    `json:"width"`
-	MD5    string `json:"md5"`
-}
-
-type Location struct {
-	Latitude  float64 `json:"latitude"`
-	Longitude float64 `json:"longitude"`
-}
-
-type Camera struct {
-	Timestamp     time.Time     `json:"timestamp"`
-	Image         string        `json:"image"`
-	Location      Location      `json:"location"`
-	CameraID      string        `json:"camera_id"`
-	ImageMetadata ImageMetadata `json:"image_metadata"`
-}
-
-type Item struct {
-	Timestamp time.Time `json:"timestamp"`
-	Cameras   []Camera  `json:"cameras"`
-}
-
-type APIInfo struct {
-	Status string `json:"status"`
-}
-
-type PhotoJson struct {
-	Items   []Item  `json:"items"`
-	APIInfo APIInfo `json:"api_info"`
-}
->>>>>>> master
