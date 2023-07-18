@@ -163,6 +163,8 @@ export default {
       formatters: Formatters,
       // sortSelector: null,
       selectedSortOption: "detourTime", // 默认选择 'Detour time'
+      maxDetourTime: null,
+      limit: null,
 
       state: {
         startMarker: undefined,
@@ -185,13 +187,13 @@ export default {
   },
   mounted() {
     this.initMap();
+    this.initTabs();
     this.initElements();
+    this.initSpreadingMode();
     this.initSearchBoxes();
     // this.initSortSelector();
     this.initSliders();
-    this.initSpreadingMode();
-    console.log(this.spreadingMode);
-    this.initTabs();
+    // console.log(this.spreadingMode);
     this.initMarkers();
   },
   methods: {
@@ -213,10 +215,10 @@ export default {
     },
     initElements() {
       // this.tabs = new Tabs('js-tabs');
+      this.searchMarkersManager = new SearchMarkersManager(this.map);
       this.errorHint = new InfoHint('error', 'bottom-center', 5000).addTo(document.getElementById('map'));
       this.loadingHint = new InfoHint('info', 'bottom-center').addTo(document.getElementById('map'));
       this.resultsManager = new ResultsManager();
-      this.searchMarkersManager = new SearchMarkersManager(this.map);
     },
     initSearchBoxes() {
       this.createSearchBox("start");
@@ -249,11 +251,11 @@ export default {
     //   this.sortSelector = new TailSelector(Object.keys(this.sortOptions), "#sort-select", "Detour time");
     // },
     initSliders() {
-      const maxDetourTime = document.getElementById("maxDetourTime");
-      maxDetourTime.onchange = this.sliderOnChange;
+      this.maxDetourTime = document.getElementById("maxDetourTime");
+      this.maxDetourTime.onchange = this.sliderOnChange;
 
-      const limit = document.getElementById("limit");
-      limit.onchange = this.sliderOnChange;
+      this.limit = document.getElementById("limit");
+      this.limit.onchange = this.sliderOnChange;
     },
     sliderOnChange(event) {
       const label = document.getElementById(event.srcElement.id + "Label");

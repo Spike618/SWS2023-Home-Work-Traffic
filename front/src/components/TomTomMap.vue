@@ -1,12 +1,13 @@
 <template>
 
-<!--  <h1>Map Demo</h1>-->
+  <!--  <h1>Map Demo</h1>-->
   <div id='map' class="full-map" ref="mapRef"></div>
 </template>
 
 <script>
 import {onMounted, ref} from 'vue'
-import axios from "axios";
+// import axios from "axios";
+import {fuck} from '@/http/index/api'
 
 export default {
   name: 'TomTomMap',
@@ -83,7 +84,7 @@ export default {
 
               let i = 1;
 
-              const popup = new tt.Popup({ offset: popupOffsets }).setText(i);
+              const popup = new tt.Popup({offset: popupOffsets}).setText(i);
               marker.setPopup(popup).togglePopup();
 
               // 移动地图到用户位置
@@ -104,6 +105,9 @@ export default {
     }
 
     async function markMap(map) {
+      // const api = axios.create({
+      //   baseURL: 'http://10.120.2.2:8848',
+      // });
       const tt = window.tt;
       const popupOffsets = {
         top: [0, 0],
@@ -114,17 +118,32 @@ export default {
         right: [-25, -35]
       };
 
-      const response = await axios.get('https://172.12.101.8:8848/admin/test');
-      const data = response.data;
+      // // const response = await api.get('/admin/test');
+      // const response = await axios.get('/api/admin/test');
+      // const data = response.data;
+      //
+      // data.forEach((item)=>{
+      //   const text = item.Id;
+      //   const latitude = item.Lat;
+      //   const longitude = item.Lon;
+      //   const location = [longitude, latitude];
+      //   const marker = new tt.Marker().setLngLat(location).addTo(map);
+      //   const popup = new tt.Popup({ offset: popupOffsets }).setText(text);
+      //   marker.setPopup(popup);
+      // })
 
-      data.forEach((item)=>{
-        const text = item.Id;
-        const latitude = item.Lat;
-        const longitude = item.Lon;
-        const location = [longitude, latitude];
-        const marker = new tt.Marker().setLngLat(location).addTo(map);
-        const popup = new tt.Popup({ offset: popupOffsets }).setText(text);
-        marker.setPopup(popup);
+      fuck().then((response) => {
+        const data = response.data;
+
+        data.forEach((item) => {
+          const text = item.Id;
+          const latitude = item.Lat;
+          const longitude = item.Lon;
+          const location = [longitude, latitude];
+          const marker = new tt.Marker().setLngLat(location).addTo(map);
+          const popup = new tt.Popup({offset: popupOffsets}).setText(text);
+          marker.setPopup(popup);
+        })
       })
     }
 

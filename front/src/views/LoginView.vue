@@ -226,8 +226,8 @@ export default {
 }
 
 .mylogin {
-  width: 400px;
-  height: 250px;
+  width: 600px;
+  height: 400px;
   position: absolute;
   top: 0;
   left: 0;
