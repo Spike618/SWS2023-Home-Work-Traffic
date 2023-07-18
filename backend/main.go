@@ -28,11 +28,11 @@ func main() {
 			fmt.Println("Error:", err)
 			return
 		}
-<<<<<<< HEAD
+
 		config.Init(wd + "\\config\\config.yaml")
-=======
+
 		config.Init(wd + "\\configs\\config.yaml")
->>>>>>> master
+
 		output.Print(consts.Main, "Init config")
 
 		service.Init()
