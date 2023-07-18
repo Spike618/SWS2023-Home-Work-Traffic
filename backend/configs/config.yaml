@@ -1,0 +1,2 @@
+service:
+  traffic_images_url: https://api.data.gov.sg/v1/transport/traffic-images
