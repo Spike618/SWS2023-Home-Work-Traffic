@@ -5,6 +5,7 @@ import (
 	"demo/src/model"
 	"demo/src/output"
 	"demo/src/service"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -27,10 +28,17 @@ func UserIndexPost(c *gin.Context) {
 		return
 	}
 
-	// generate path
-	service.SearchPath(request.OriginLat, request.OriginLon, request.DestinationLat, request.DestinationLon)
-	// send response
+	// process path with congestion
+	routes := service.SearchPath(request.OriginLat, request.OriginLon, request.DestinationLat, request.DestinationLon)
 
+	// send response
+	output.Print(consts.Controller, fmt.Sprintf("Find routes for (%.6f,%.6f:%.6f,%.6f)",
+		request.OriginLat, request.OriginLon, request.DestinationLat, request.DestinationLon))
+	c.JSON(http.StatusOK, gin.H{
+		"code": consts.SUCCESS,
+		"msg":  "Find routes success",
+		"data": routes,
+	})
 }
 
 func UserIndexPatch(c *gin.Context) {

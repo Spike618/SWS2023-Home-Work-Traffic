@@ -24,16 +24,9 @@ func Test(c *gin.Context) {
 	}
 	defer opencast.Close()
 
-	//创建csv读取接口实例
+	// read content
 	ReadCsv := csv.NewReader(opencast)
-
-	//获取一行内容，一般为第一行内容
-	read, _ := ReadCsv.Read() //返回切片类型：[chen  hai wei]
-	fmt.Println(read)
-
-	//读取所有内容
 	ReadAll, err := ReadCsv.ReadAll() //返回切片类型：[[s s ds] [a a a]]
-	fmt.Println(ReadAll)
 
 	type Triplet struct {
 		Id  int
@@ -51,7 +44,6 @@ func Test(c *gin.Context) {
 
 	// process user login
 	output.Print(consts.Controller, "test")
-	print(slice)
 	c.JSON(http.StatusOK, gin.H{
 		"code": consts.SUCCESS,
 		"msg":  "test",
