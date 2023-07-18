@@ -50,7 +50,7 @@ from utils.torch_utils import select_device, smart_inference_mode
 
 # source是将要识别文件的url
 def my_count_vehicles(source):
-    weights=ROOT / 'train_result/weights/best.pt'  # model path or triton URL
+    weights=ROOT / 'v0_weight/best.pt'  # model path or triton URL
     data=ROOT / 'data/coco128.yaml'  # dataset.yaml path
     imgsz=(640, 640)  # inference size (height, width)
     conf_thres=0.25  # confidence threshold
@@ -82,9 +82,6 @@ def my_count_vehicles(source):
     if is_url and is_file:
         source = check_file(source)  # download
 
-    # Directories
-    save_dir = increment_path(Path(project) / name, exist_ok=exist_ok)  # increment run
-    (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
 
     # Load model
     device = select_device(device)
@@ -137,8 +134,6 @@ def my_count_vehicles(source):
                 p, im0, frame = path, im0s.copy(), getattr(dataset, 'frame', 0)
 
             p = Path(p)  # to Path
-            save_path = str(save_dir / p.name)  # im.jpg
-            txt_path = str(save_dir / 'labels' / p.stem) + ('' if dataset.mode == 'image' else f'_{frame}')  # im.txt
             s += '%gx%g ' % im.shape[2:]  # print string
             gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
             imc = im0.copy() if save_crop else im0  # for save_crop
