@@ -8,10 +8,13 @@ import (
 type Config struct {
 	Service struct {
 		TrafficImagesUrl string `yaml:"traffic_images_url"`
+<<<<<<< HEAD
 		TomtomRouteUrl   string `yaml:"tomtom_route_url"`
 		TomtomTrafficUrl string `yaml:"tomtom_traffic_url"`
 		TomTomKey        string `yaml:"tomtom_key"`
 		BaiduUrl         string `yaml:"baidu_url"`
+=======
+>>>>>>> master
 	} `yaml:"service"`
 }
 

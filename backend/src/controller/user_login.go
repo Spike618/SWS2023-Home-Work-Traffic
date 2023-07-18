@@ -14,7 +14,11 @@ func UserLoginGet(c *gin.Context) {
 
 func UserLoginPost(c *gin.Context) {
 	// get request
+<<<<<<< HEAD
 	var request model.RegisterLoginRequest
+=======
+	var request model.RegisterLogin
+>>>>>>> master
 	if err := c.BindJSON(&request); err != nil {
 		output.Print(consts.Controller, "Body invalid")
 		c.JSON(http.StatusOK, gin.H{

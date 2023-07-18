@@ -1,5 +1,6 @@
 package controller
 
+<<<<<<< HEAD
 import (
 	"demo/src/consts"
 	"demo/src/model"
@@ -8,12 +9,16 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
+=======
+import "github.com/gin-gonic/gin"
+>>>>>>> master
 
 func UserIndexGet(c *gin.Context) {
 
 }
 
 func UserIndexPost(c *gin.Context) {
+<<<<<<< HEAD
 	// get request
 	var request model.UserIndexRequest
 	if err := c.BindJSON(&request); err != nil {
@@ -29,6 +34,9 @@ func UserIndexPost(c *gin.Context) {
 	// generate path
 	service.SearchPath(request.OriginLat, request.OriginLon, request.DestinationLat, request.DestinationLon)
 	// send response
+=======
+
+>>>>>>> master
 }
 
 func UserIndexPatch(c *gin.Context) {

@@ -14,7 +14,12 @@ func AdminLoginGet(c *gin.Context) {
 
 func AdminLoginPost(c *gin.Context) {
 	// get request
+<<<<<<< HEAD
 	var request model.RegisterLoginRequest
+=======
+	var request model.RegisterLogin
+	//print(c.Query("Email"))
+>>>>>>> master
 	if err := c.BindJSON(&request); err != nil {
 		output.Print(consts.Controller, "Body invalid")
 		c.JSON(http.StatusOK, gin.H{
@@ -29,8 +34,11 @@ func AdminLoginPost(c *gin.Context) {
 	email := request.Email
 	password := request.Password
 
+<<<<<<< HEAD
 	//token, err := utils.ReleaseToken(user_id, user_auth)
 
+=======
+>>>>>>> master
 	// process user login
 	output.Print(consts.Controller, email+" "+password)
 	c.JSON(http.StatusOK, gin.H{
