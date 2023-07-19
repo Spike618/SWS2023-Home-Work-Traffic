@@ -1,4 +1,3 @@
-
 function handleEnterSubmit(event, selectionCallback, errorHint, type) {
     if (event.data && event.data.metadata.triggeredBy === 'submit') {
         if (event.data.results && event.data.results.fuzzySearch.results[0]) {
@@ -10,3 +9,5 @@ function handleEnterSubmit(event, selectionCallback, errorHint, type) {
 }
 
 window.handleEnterSubmit = window.handleEnterSubmit || handleEnterSubmit;
+
+export default handleEnterSubmit;

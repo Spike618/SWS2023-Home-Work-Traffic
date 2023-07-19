@@ -50,3 +50,5 @@ Foldable.prototype._toggleFold = function() {
 };
 
 window.Foldable = window.Foldable || Foldable;
+
+export default Foldable;
