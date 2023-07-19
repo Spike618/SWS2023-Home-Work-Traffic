@@ -50,7 +50,7 @@ from utils.torch_utils import select_device, smart_inference_mode
 
 # source是将要识别文件的url
 def my_count_vehicles(source):
-    weights=ROOT / 'train_result/weights/best.pt'  # model path or triton URL
+    weights=ROOT / 'v0_weight/best.pt'  # model path or triton URL
     data=ROOT / 'data/coco128.yaml'  # dataset.yaml path
     imgsz=(640, 640)  # inference size (height, width)
     conf_thres=0.25  # confidence threshold
