@@ -14,6 +14,9 @@ func CreateServer() {
 	//router.Use(middleware.CROSMiddleware(), middleware.AUTHMiddleware())
 	router.Use(middleware.CROSMiddleware())
 
+	// test
+	router.POST("/test", controller.Test)
+
 	// admin
 	admin := router.Group("/admin")
 	// login page
@@ -22,7 +25,6 @@ func CreateServer() {
 	// index page
 	admin.GET("/index", controller.AdminIndexGet)
 	admin.POST("/index", controller.AdminIndexPost)
-	admin.POST("/test", controller.Test)
 
 	// user
 	user := router.Group("/user")

@@ -17,4 +17,7 @@ const FAIL = -1
 const NotExistId = "-1"
 const InvalidAuth = -1
 
-const TimeInterval = 60
+// traffic
+const HighCongestion = 3
+const MiddleCongestion = 2
+const LowCongestion = 1

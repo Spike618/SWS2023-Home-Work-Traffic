@@ -11,8 +11,17 @@ type Config struct {
 		TomtomRouteUrl   string `yaml:"tomtom_route_url"`
 		TomtomTrafficUrl string `yaml:"tomtom_traffic_url"`
 		TomTomKey        string `yaml:"tomtom_key"`
-		BaiduUrl         string `yaml:"baidu_url"`
 	} `yaml:"service"`
+
+	System struct {
+		TimeInterval int `yaml:"time_interval"`
+	} `yaml:"system"`
+
+	Traffic struct {
+		WorkerSize  int     `yaml:"worker_size"`
+		CurFreeLow  float64 `yaml:"cur_free_low"`
+		CurFreeHigh float64 `yaml:"cur_free_high"`
+	} `yaml:"traffic"`
 }
 
 var config Config
