@@ -2,6 +2,7 @@ package dao
 
 import (
 	"database/sql"
+	"demo/src/config"
 	"demo/src/output"
 	"fmt"
 	"log"
@@ -9,16 +10,15 @@ import (
 
 // Database vars
 var db *sql.DB
-var AttributeUser = make(map[string]string)
-var AttributeCar = make(map[string]string)
-var AttributeCharge = make(map[string]string)
-var AttributeOrder = make(map[string]string)
 
 func InitDb() {
 	var err error
 
 	// link
-	db, err = sql.Open("mysql", "???")
+	db, err = sql.Open("mysql", config.GetConfig().Database.Username+
+		":"+config.GetConfig().Database.Password+
+		fmt.Sprintf("@tcp(%s:%s)", config.GetConfig().Database.Url, config.GetConfig().Database.Port)+
+		"/"+config.GetConfig().Database.DbName)
 	if err != nil {
 		fmt.Println(err)
 		output.Print("Dao", "Open database fail!")
@@ -35,6 +35,6 @@ func InitDb() {
 }
 
 func CloseDb() {
-	output.Print("Dao", "Database close.")
 	db.Close()
+	output.Print("Dao", "Database close.")
 }

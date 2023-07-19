@@ -8,12 +8,12 @@ import (
 var JwtKey = []byte("SWS3004")
 
 type Claims struct {
-	UserId string
+	UserId int
 	Auth   int
 	jwt.StandardClaims
 }
 
-func ReleaseToken(userId string, auth int) (string, error) {
+func ReleaseToken(userId int, auth int) (string, error) {
 	// token expire
 	expirationTime := time.Now().Add(7 * 24 * time.Hour)
 

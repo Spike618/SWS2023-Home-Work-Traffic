@@ -11,11 +11,16 @@ import (
 )
 
 func UserIndexGet(c *gin.Context) {
+	// get camera congestion
 
+	c.JSON(http.StatusOK, gin.H{
+		"code": consts.SUCCESS,
+		"msg":  nil,
+		"data": nil,
+	})
 }
 
 func UserIndexPost(c *gin.Context) {
-
 	// get request
 	var request model.UserIndexRequest
 	if err := c.BindJSON(&request); err != nil {
@@ -42,9 +47,17 @@ func UserIndexPost(c *gin.Context) {
 }
 
 func UserIndexPatch(c *gin.Context) {
-
+	c.JSON(http.StatusOK, gin.H{
+		"code": consts.SUCCESS,
+		"msg":  nil,
+		"data": nil,
+	})
 }
 
 func UserIndexDelete(c *gin.Context) {
-
+	c.JSON(http.StatusOK, gin.H{
+		"code": consts.SUCCESS,
+		"msg":  nil,
+		"data": nil,
+	})
 }

@@ -22,6 +22,14 @@ type Config struct {
 		CurFreeLow  float64 `yaml:"cur_free_low"`
 		CurFreeHigh float64 `yaml:"cur_free_high"`
 	} `yaml:"traffic"`
+
+	Database struct {
+		Url      string `yaml:"url"`
+		Port     string `yaml:"port"`
+		DbName   string `yaml:"db_name"`
+		Username string `yaml:"username"`
+		Password string `yaml:"password"`
+	} `yaml:"database"`
 }
 
 var config Config
