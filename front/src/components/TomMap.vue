@@ -89,7 +89,7 @@ export default {
                 right: [-25, -35]
               };
 
-              let i = 1;
+              let i = "Now Here!";
 
               const popup = new tt.Popup({offset: popupOffsets}).setText(i);
               marker.setPopup(popup).togglePopup();

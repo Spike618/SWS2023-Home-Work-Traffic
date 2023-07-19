@@ -5,13 +5,15 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
         name: 'index',
+        redirect: '/login',
+        component: () => import('../views/Login_Register.vue'),
+        children: [],
+    },
+    {
+        path: '/login',
+        name: 'Login',
         component: () => import(/* webpackChunkName: "about" */ '../views/Login_Register.vue')
     },
-    // {
-    //     path: '/login',
-    //     name: 'Login',
-    //     component: () => import(/* webpackChunkName: "about" */ '../views/Login_Register.vue')
-    // },
     {
         path: '/:catchAll(.*)',
         name: '/NotFound',
