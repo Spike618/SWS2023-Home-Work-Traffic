@@ -5,62 +5,69 @@
 </template>
 
 <script>
+// import tt from '@tomtom-international/web-sdk-maps';
 import {onMounted, ref} from 'vue'
 // import axios from "axios";
-import {fuck} from '@/http/index/api'
+import {test} from '@/api/api'
 
 export default {
-  name: 'TomTomMap',
+  name: 'TomMap',
   setup() {
     const mapRef = ref(null);
-    onMounted(() => {
+    let map = null;
 
+    onMounted(async () => {
       const tt = window.tt;
-      let map = tt.map({
+      map = tt.map({
         key: 'wUIehlXj4kLvG4iYiDAvvjoA4OXdA3Mu',
         container: mapRef.value,
         style: 'tomtom://vector/1/basic-main',
       });
       map.addControl(new tt.FullscreenControl());
       map.addControl(new tt.NavigationControl());
-      // getUserLocation(map);
-
 
       const savedMapState = JSON.parse(localStorage.getItem('mapState'));
       if (savedMapState) {
-        map = tt.map({
-          key: 'wUIehlXj4kLvG4iYiDAvvjoA4OXdA3Mu',
-          container: mapRef.value,
-          style: 'tomtom://vector/1/basic-main',
-          center: savedMapState.center,
-          zoom: savedMapState.zoom,
-        });
+        map.setCenter(savedMapState.center);
+        map.setZoom(savedMapState.zoom);
       } else {
-        map = tt.map({
-          key: 'wUIehlXj4kLvG4iYiDAvvjoA4OXdA3Mu',
-          container: mapRef.value,
-          style: 'tomtom://vector/1/basic-main',
-          center: [0, 0], // Set your desired initial map center coordinates
-          zoom: 10, // Set your desired initial zoom level
-        });
+        map.setCenter([0, 0]);
+        map.setZoom(10);
       }
 
-      map.addControl(new tt.FullscreenControl());
-      map.addControl(new tt.NavigationControl());
-
-
-      markMap(map);
       getUserLocation(map);
-
-      // 监听地图状态变化，保存到 localStorage
-      map.on('moveend', () => {
-        const mapState = {
-          center: map.getCenter(),
-          zoom: map.getZoom(),
-        };
-        localStorage.setItem('mapState', JSON.stringify(mapState));
-      });
+      await markMap(map);
     });
+
+    async function markMap(map) {
+      const tt = window.tt;
+      const popupOffsets = {
+        top: [0, 0],
+        bottom: [0, -30],
+        'bottom-right': [0, -30],
+        'bottom-left': [0, -30],
+        left: [25, -35],
+        right: [-25, -35]
+      };
+
+      try {
+        const response = await test();
+        console.log("111");
+        const data = response.data;
+
+        data.forEach((item) => {
+          const text = item.Id;
+          const latitude = item.Lat;
+          const longitude = item.Lon;
+          const location = [longitude, latitude];
+          const marker = new tt.Marker().setLngLat(location).addTo(map);
+          const popup = new tt.Popup({offset: popupOffsets}).setText(text);
+          marker.setPopup(popup);
+        });
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
 
     function getUserLocation(map) {
       if (navigator.geolocation) {
@@ -102,49 +109,6 @@ export default {
       } else {
         console.error('Geolocation is not supported by this browser.');
       }
-    }
-
-    async function markMap(map) {
-      // const api = axios.create({
-      //   baseURL: 'http://10.120.2.2:8848',
-      // });
-      const tt = window.tt;
-      const popupOffsets = {
-        top: [0, 0],
-        bottom: [0, -30],
-        'bottom-right': [0, -30],
-        'bottom-left': [0, -30],
-        left: [25, -35],
-        right: [-25, -35]
-      };
-
-      // // const response = await api.get('/admin/test');
-      // const response = await axios.get('/api/admin/test');
-      // const data = response.data;
-      //
-      // data.forEach((item)=>{
-      //   const text = item.Id;
-      //   const latitude = item.Lat;
-      //   const longitude = item.Lon;
-      //   const location = [longitude, latitude];
-      //   const marker = new tt.Marker().setLngLat(location).addTo(map);
-      //   const popup = new tt.Popup({ offset: popupOffsets }).setText(text);
-      //   marker.setPopup(popup);
-      // })
-
-      fuck().then((response) => {
-        const data = response.data;
-
-        data.forEach((item) => {
-          const text = item.Id;
-          const latitude = item.Lat;
-          const longitude = item.Lon;
-          const location = [longitude, latitude];
-          const marker = new tt.Marker().setLngLat(location).addTo(map);
-          const popup = new tt.Popup({offset: popupOffsets}).setText(text);
-          marker.setPopup(popup);
-        })
-      })
     }
 
     return {
