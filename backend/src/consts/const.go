@@ -5,6 +5,7 @@ const ModeTest = "test"
 const ModeRelease = "release"
 
 const Main = "Main"
+const Config = "Config"
 const Controller = "Controller"
 const Service = "Service"
 

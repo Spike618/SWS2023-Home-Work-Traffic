@@ -38,7 +38,7 @@ func main() {
 		service.Init()
 		output.Print(consts.Main, "Init service layer")
 
-		dao.Init()
+		//dao.Init()
 		output.Print("Main", "Init dao layer")
 
 		output.Print(consts.Main, "Gin Start")

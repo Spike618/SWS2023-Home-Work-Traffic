@@ -14,7 +14,7 @@ import (
 
 func SearchPath(originLat, originLon, destinationLat, destinationLon float64) [][][]Point {
 	// find paths from API (only have one route)
-	routes := GetRoutes(originLat, originLon, destinationLat, destinationLon, config.GetConfig().Service.TomTomKey)
+	routes := GetRoutes(originLat, originLon, destinationLat, destinationLon, config.GetYamlConfig().Service.TomTomKey)
 	output.Print(consts.Service, "Find routes successfully")
 
 	// routes congestion
@@ -34,7 +34,7 @@ func SearchPath(originLat, originLon, destinationLat, destinationLon float64) []
 			results := make(chan Point, numJobs)
 
 			// start workers
-			numWorkers := config.GetConfig().Traffic.WorkerSize
+			numWorkers := config.GetYamlConfig().Traffic.WorkerSize
 			var wg sync.WaitGroup
 			for i := 0; i < numWorkers; i++ {
 				wg.Add(1)
@@ -76,7 +76,7 @@ func GetRoutes(originLat, originLon, destinationLat, destinationLon float64, key
 	var routeResponse RouteResponse
 
 	// build routeURL
-	routingURL := config.GetConfig().Service.TomtomRouteUrl +
+	routingURL := config.GetYamlConfig().Service.TomtomRouteUrl +
 		fmt.Sprintf("%.6f,%.6f:%.6f,%.6f", originLat, originLon, destinationLat, destinationLon) +
 		"/json?" + fmt.Sprintf("key=%s", key)
 	response, err := http.Get(routingURL)
@@ -124,8 +124,8 @@ func CalPointCongestion(lat, lon float64) int {
 	parameters.Add("point", fmt.Sprintf("%f,%f", lat, lon))
 	parameters.Add("unit", "KMPH")
 	parameters.Add("openLr", "false")
-	parameters.Add("key", config.GetConfig().Service.TomTomKey)
-	trafficURL := config.GetConfig().Service.TomtomTrafficUrl + "/json?" + parameters.Encode()
+	parameters.Add("key", config.GetYamlConfig().Service.TomTomKey)
+	trafficURL := config.GetYamlConfig().Service.TomtomTrafficUrl + "/json?" + parameters.Encode()
 
 	// send request
 	response, err := http.Get(trafficURL)

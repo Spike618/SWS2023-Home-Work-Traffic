@@ -36,7 +36,7 @@ func UserRegisterPost(c *gin.Context) {
 	password := request.Password
 
 	// register
-	output.Print(consts.Controller, "Register with Email="+email+", password="+password)
+	output.Print(consts.Controller, "Register with email="+email+", password="+password)
 	if utils.Check(email, password) == false {
 		output.Print(consts.Controller, "Register fail, invalid email or password")
 		c.JSON(http.StatusOK, gin.H{

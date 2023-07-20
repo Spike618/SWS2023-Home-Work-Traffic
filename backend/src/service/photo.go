@@ -49,7 +49,7 @@ var photoJson PhotoJson
 func RequestPhotosRecursively() {
 	go func() {
 		// create ticker
-		interval := time.Duration(config.GetConfig().System.TimeInterval) * time.Second
+		interval := time.Duration(config.GetYamlConfig().System.TimeInterval) * time.Second
 		ticker := time.NewTicker(interval)
 		defer ticker.Stop()
 
@@ -68,7 +68,7 @@ func RequestPhotos() {
 	output.Print(consts.Service, "Get photo information")
 
 	// get response
-	response, err := http.Get(config.GetConfig().Service.TrafficImagesUrl)
+	response, err := http.Get(config.GetYamlConfig().Service.TrafficImagesUrl)
 	if err != nil {
 		fmt.Println("Error sending request:", err)
 		return
