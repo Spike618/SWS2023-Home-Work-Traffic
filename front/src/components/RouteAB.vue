@@ -2,6 +2,7 @@
   <div id='map' class='map'>
     <div id='foldable' class='tt-overlay-panel -left-top -medium js-foldable'>
       <form id=form>
+        <div id="userIcon" class="fas fa-home" @click="navigateToUserPage"></div>
         <div id='startSearchBox' class='searchbox-container'>
           <div class='tt-icon tt-icon-size icon-spacing-right -start'></div>
         </div>
@@ -57,8 +58,20 @@ export default {
     };
   },
   mounted() {
-    // fuzzySearch;
     this.initMap();
+    new Foldable('#foldable', 'top-right');
+    this.bounds = new tt.LngLatBounds();
+    this.startSearchbox = this.createSearchBox('start');
+    this.createSearchBox('finish');
+    this.closeButton = document.querySelector('.tt-search-box-close-icon');
+    this.startSearchboxInput = this.startSearchbox.getSearchBoxHTML().querySelector('.tt-search-box-input');
+    this.startSearchboxInput.addEventListener('input', this.handleSearchboxInputChange.bind(this));
+    this.createMyLocationButton();
+    this.switchToMyLocationButton();
+    this.errorHint = new InfoHint('error', 'bottom-center', 5000).addTo(document.getElementById('map'));
+    this.getUserLocation();
+    this.markMap();
+    // this.testDrawRoutes();
   },
   methods: {
     initMap() {
@@ -69,18 +82,6 @@ export default {
       this.map.on('load', () => {
         // this.getUserLocation();
         this.checkMapCreated();
-        new Foldable('#foldable', 'top-right');
-        this.bounds = new tt.LngLatBounds();
-        this.startSearchbox = this.createSearchBox('start');
-        this.createSearchBox('finish');
-        this.closeButton = document.querySelector('.tt-search-box-close-icon');
-        this.startSearchboxInput = this.startSearchbox.getSearchBoxHTML().querySelector('.tt-search-box-input');
-        this.startSearchboxInput.addEventListener('input', this.handleSearchboxInputChange.bind(this));
-        this.createMyLocationButton();
-        this.switchToMyLocationButton();
-        this.errorHint = new InfoHint('error', 'bottom-center', 5000).addTo(document.getElementById('map'));
-        this.markMap();
-        // this.testDrawRoutes();
       });
 
       this.map.addControl(
@@ -225,29 +226,29 @@ export default {
             (position) => {
               const latitude = position.coords.latitude;
               const longitude = position.coords.longitude;
-              const tt = window.tt;
+              // const tt = window.tt;
               const location = [longitude, latitude]; // 注意经纬度顺序
 
-              // 在地图上添加标记
-              const marker = new tt.Marker().setLngLat(location).addTo(toRaw(this.map));
-              const popupOffsets = {
-                top: [0, 0],
-                bottom: [0, -30],
-                'bottom-right': [0, -30],
-                'bottom-left': [0, -30],
-                left: [25, -35],
-                right: [-25, -35]
-              };
-
-              let i = "Now Here!";
-
-              const popup = new tt.Popup({offset: popupOffsets}).setText(i);
-              marker.setPopup(popup).togglePopup();
+              // // 在地图上添加标记
+              // const marker = new tt.Marker().setLngLat(location).addTo(toRaw(this.map));
+              // const popupOffsets = {
+              //   top: [0, 0],
+              //   bottom: [0, -30],
+              //   'bottom-right': [0, -30],
+              //   'bottom-left': [0, -30],
+              //   left: [25, -35],
+              //   right: [-25, -35]
+              // };
+              //
+              // let i = "Now Here!";
+              //
+              // const popup = new tt.Popup({offset: popupOffsets}).setText(i);
+              // marker.setPopup(popup).togglePopup();
 
               // 移动地图到用户位置
               this.map.flyTo({
                 center: location,
-                zoom: 14, // 建议 14 - 15
+                zoom: 11,
                 speed: 0.8,
                 curve: 1.42,
               });
@@ -448,9 +449,9 @@ export default {
     onResultSelected(result, type) {
       const pos = result.position;
       this.state[type] = [pos.lng, pos.lat];
-      console.log("cnm")
+      console.log("pos")
       console.log(this.state[type])
-      console.log("cnm")
+      console.log("pos")
 
       if (type === 'start') {
         this.setCloseButton();
@@ -525,6 +526,10 @@ export default {
 
       return searchBox;
     },
+
+    navigateToUserPage() {
+      this.$router.push('/user');
+    },
   },
 };
 </script>
@@ -543,6 +548,10 @@ export default {
 
 #form {
   margin-top: 10px;
+}
+
+#userIcon {
+  font-size: 20px;
 }
 
 .icon {

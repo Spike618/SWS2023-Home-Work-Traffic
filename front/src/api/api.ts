@@ -3,7 +3,7 @@ import service from "@/api/request";
 
 export function register(data:any){
     return service({
-        url:'/client/register',
+        url:'/user/register',
         method:'POST',
         data: data
     })
@@ -11,7 +11,7 @@ export function register(data:any){
 
 export function login(data:any){
     return service({
-        url:'/client/login',
+        url:'/user/login',
         method:'POST',
         data: data
     })

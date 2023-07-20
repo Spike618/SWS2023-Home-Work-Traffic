@@ -1,7 +1,7 @@
 <template>
   <el-container class="container-style" style="position: absolute;left: 0;right: 0;top: 0;bottom: 0;overflow: hidden;">
     <el-header class="header" style="background: #545c64">
-      <a class="title">智能充电桩管理系统</a>
+      <a class="title">User Settings</a>
 
       <el-menu
           default-active="0"
@@ -12,13 +12,14 @@
           :ellipsis="false"
           @select="headerSelect">
 
-        <el-menu-item v-for="(item,index) in navBar.list" :key="index" :index="index.toString()">{{item.name}}</el-menu-item>
-        <el-menu-item>
-          <template #title>
-            <el-avatar size="small" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"/>
-            admin
-          </template>
+        <el-menu-item v-for="(item,index) in navBar.list" :key="index" :index="index.toString()">{{ item.name }}
         </el-menu-item>
+<!--        <el-menu-item>-->
+<!--          <template #title>-->
+<!--            <el-avatar size="small" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"/>-->
+<!--            admin-->
+<!--          </template>-->
+<!--        </el-menu-item>-->
       </el-menu>
 
     </el-header>
@@ -35,7 +36,7 @@
             <el-icon>
               <component :is="item.icon"/>
             </el-icon>
-            <span>{{item.name}}</span>
+            <span>{{ item.name }}</span>
           </el-menu-item>
         </el-menu>
 
@@ -51,61 +52,64 @@
 <script setup lang="ts">
 
 import {ref} from "@vue/reactivity";
-import welcome from "@/components/welcome.vue";
+import InfoEdit from "@/components/InfoEdit.vue";
 import SingleCharge from "@/components/SingleCharge.vue";
 import router from "@/router";
-const quit = () =>{
+
+const quit = () => {
   router.push('/')
 }
 
-const navBar={
+const navBar = {
 
-  list:[
+  list: [
     {
-      name:"首页",
-      subActive:'0',
-      subMenu:[
+      name: "Home",
+      subActive: '0',
+      subMenu: [
         {
-          icon:"House",
-          name:"总体数据概览",
-          component:welcome
+          icon: "el-icon-s-home",
+          name: "Account Edit",
+          component: InfoEdit
         },
       ]
     },
 
-    {name:"管理充电桩",
-      subActive:'0',
-      subMenu:[
-        {
-          icon:"",
-          name:"查询充电站信息",
-          component:SingleCharge,
-        },
-
-      ]},
+    // {
+    //   name: "Account",
+    //   subActive: '0',
+    //   subMenu: [
+    //     {
+    //       icon: "",
+    //       name: "查询充电站信息",
+    //       component: SingleCharge,
+    //     },
+    //
+    //   ]
+    // },
 
   ]
 }
 
-const slideMenu=ref<any>(navBar.list[0].subMenu)
+const slideMenu = ref<any>(navBar.list[0].subMenu)
 
-const slideMenuActive=ref<any>(navBar.list[0].subActive)
+const slideMenuActive = ref<any>(navBar.list[0].subActive)
 
-const slideMenuComponent=ref<any>(slideMenu.value[slideMenuActive.value].component)
+const slideMenuComponent = ref<any>(slideMenu.value[slideMenuActive.value].component)
 //顶栏选择
-const headerSelect = (key:any, keyPath:any) => {
+const headerSelect = (key: any, keyPath: any) => {
 
   //更新左侧导航栏
-  console.log(key ,keyPath)
-  slideMenu.value=navBar.list[key].subMenu
+  console.log(key, keyPath)
+  slideMenu.value = navBar.list[key].subMenu
   //更新组件页面
-  slideMenuComponent.value=slideMenu.value[slideMenuActive.value].component
+  slideMenuComponent.value = slideMenu.value[slideMenuActive.value].component
 
 }
 
-const slideSelect=(key: string, keyPath: string[]) => {
+const slideSelect = (key: string, keyPath: string[]) => {
   //更新组件页面
-  slideMenuComponent.value=slideMenu.value[key].component
+  slideMenuComponent.value = slideMenu.value[key].component
 }
 </script>
 
@@ -129,14 +133,17 @@ const slideSelect=(key: string, keyPath: string[]) => {
   border-radius: 5px;
   cursor: pointer;
 }
-.header{
+
+.header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.title{
+
+.title {
   color: white;
 }
+
 .container-style {
   position: absolute;
   top: 0;
@@ -147,8 +154,8 @@ const slideSelect=(key: string, keyPath: string[]) => {
 }
 
 
-.el-aside{
-  border-right:2px solid #e0dfdb;
+.el-aside {
+  border-right: 2px solid #e0dfdb;
   height: 100%;
 }
 </style>
