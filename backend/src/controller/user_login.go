@@ -36,7 +36,7 @@ func UserLoginPost(c *gin.Context) {
 	password := request.Password
 
 	// login
-	output.Print(consts.Controller, "Login with Email="+email+", password="+password)
+	output.Print(consts.Controller, "Login with email="+email+", password="+password)
 	ok, id, auth := service.Login(email, password)
 
 	// send response

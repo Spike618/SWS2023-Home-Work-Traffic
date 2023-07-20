@@ -59,3 +59,12 @@ type Point struct {
 	Lon        float64
 	Congestion int
 }
+
+type Road struct {
+	Camera []struct {
+		Type      int     `json:"type"`
+		CameraID  int     `json:"camera_id"`
+		Latitude  float64 `json:"latitude"`
+		Longitude float64 `json:"longitude"`
+	} `json:"road"`
+}

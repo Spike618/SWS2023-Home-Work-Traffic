@@ -1,11 +1,13 @@
 package config
 
 import (
+	"demo/src/consts"
+	"demo/src/output"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 )
 
-type Config struct {
+type YamlConfig struct {
 	Service struct {
 		TrafficImagesUrl string `yaml:"traffic_images_url"`
 		TomtomRouteUrl   string `yaml:"tomtom_route_url"`
@@ -32,7 +34,7 @@ type Config struct {
 	} `yaml:"database"`
 }
 
-var config Config
+var yamlConfig YamlConfig
 
 func Init(file string) error {
 	yamlFile, err := ioutil.ReadFile(file)
@@ -40,14 +42,15 @@ func Init(file string) error {
 		return err
 	}
 
-	err = yaml.Unmarshal(yamlFile, &config)
+	err = yaml.Unmarshal(yamlFile, &yamlConfig)
 	if err != nil {
 		return err
 	}
 
+	output.Print(consts.Config, "config init")
 	return nil
 }
 
-func GetConfig() Config {
-	return config
+func GetYamlConfig() YamlConfig {
+	return yamlConfig
 }
