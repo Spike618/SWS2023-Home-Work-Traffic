@@ -27,25 +27,31 @@ func main() {
 
 		fmt.Println("Mode: ", mode)
 
+		output.Print(consts.Main, "Init config")
 		wd, err := os.Getwd()
 		if err != nil {
 			fmt.Println("Error:", err)
 			return
 		}
 		config.Init(wd + "\\config\\config.yaml")
-		output.Print(consts.Main, "Init config")
 
-		service.Init()
 		output.Print(consts.Main, "Init service layer")
+		service.Init()
 
-		//dao.Init()
 		output.Print("Main", "Init dao layer")
+		dao.Init()
 
 		output.Print(consts.Main, "Gin Start")
 		router.CreateServer()
 
 	} else {
 		fmt.Println("Should add one argument, test or release.")
+	}
+
+	// convert key
+	if len(os.Args) > 2 {
+		output.Print(consts.Main, fmt.Sprintf("Convert key as: %s", os.Args[2]))
+		config.PutInTomTomKey(os.Args[2])
 	}
 
 	// exit by os signal

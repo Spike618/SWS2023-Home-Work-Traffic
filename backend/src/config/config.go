@@ -20,9 +20,10 @@ type YamlConfig struct {
 	} `yaml:"system"`
 
 	Traffic struct {
-		WorkerSize  int     `yaml:"worker_size"`
-		CurFreeLow  float64 `yaml:"cur_free_low"`
-		CurFreeHigh float64 `yaml:"cur_free_high"`
+		WorkerSize     int     `yaml:"worker_size"`
+		CurFreeLow     float64 `yaml:"cur_free_low"`
+		CurFreeHigh    float64 `yaml:"cur_free_high"`
+		PointThreshold int     `yaml:"point_threshold"`
 	} `yaml:"traffic"`
 
 	Database struct {
@@ -47,10 +48,14 @@ func Init(file string) error {
 		return err
 	}
 
-	output.Print(consts.Config, "config init")
+	output.Print(consts.Config, "read config.yaml")
 	return nil
 }
 
 func GetYamlConfig() YamlConfig {
 	return yamlConfig
+}
+
+func PutInTomTomKey(key string) {
+	yamlConfig.Service.TomTomKey = key
 }

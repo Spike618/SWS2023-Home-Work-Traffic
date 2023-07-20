@@ -37,7 +37,7 @@ func AdminLoginPost(c *gin.Context) {
 
 	// login
 	output.Print(consts.Controller, "Login with email="+email+", password="+password)
-	ok, id, auth := service.Login(email, password)
+	ok, id, auth, _, _ := service.Login(email, password)
 
 	// send response
 	if ok {

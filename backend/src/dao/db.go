@@ -3,6 +3,7 @@ package dao
 import (
 	"database/sql"
 	"demo/src/config"
+	"demo/src/consts"
 	"demo/src/output"
 	"fmt"
 	"log"
@@ -21,20 +22,20 @@ func InitDb() {
 		"/"+config.GetYamlConfig().Database.DbName)
 	if err != nil {
 		fmt.Println(err)
-		output.Print("Dao", "Open database fail!")
+		output.Print(consts.Dao, "Open database fail!")
 	}
 
 	// detect link state
 	err = db.Ping()
 	if err != nil {
-		output.Print("Dao", "Database link fail!")
+		output.Print(consts.Dao, "Database link fail!")
 		log.Fatal(err)
 	} else {
-		output.Print("Dao", "Database link successfully.")
+		output.Print(consts.Dao, "Database link successfully.")
 	}
 }
 
 func CloseDb() {
 	db.Close()
-	output.Print("Dao", "Database close.")
+	output.Print(consts.Dao, "Database close.")
 }

@@ -4,49 +4,51 @@ import (
 	"demo/src/config"
 	"demo/src/consts"
 	"demo/src/output"
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/credentials"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/s3"
+	"log"
 	"time"
 )
 
-type ImageMetadata struct {
-	Height int    `json:"height"`
-	Width  int    `json:"width"`
-	MD5    string `json:"md5"`
-}
-
-type Location struct {
-	Latitude  float64 `json:"latitude"`
-	Longitude float64 `json:"longitude"`
-}
-
-type Camera struct {
-	Timestamp     time.Time     `json:"timestamp"`
-	Image         string        `json:"image"`
-	Location      Location      `json:"location"`
-	CameraID      string        `json:"camera_id"`
-	ImageMetadata ImageMetadata `json:"image_metadata"`
-}
-
-type Item struct {
-	Timestamp time.Time `json:"timestamp"`
-	Cameras   []Camera  `json:"cameras"`
-}
-
-type APIInfo struct {
-	Status string `json:"status"`
-}
-
-type PhotoJson struct {
-	Items   []Item  `json:"items"`
-	APIInfo APIInfo `json:"api_info"`
-}
-
-var photoJson PhotoJson
-
 func RequestPhotosRecursively() {
+
+	// 替换以下内容为你的 AWS 访问凭证
+	accessKeyID := "ASIAULQIPMQXED4PEW53"
+	secretAccessKey := "Js95mnd5wWiNu3Jh+gABicaSdJHZz84ZVvqXekow"
+	region := "us-east-1" // 根据你的 S3 存储桶所在的 AWS 区域调整 region
+
+	// 创建一个 AWS Session
+	sess, err := session.NewSession(&aws.Config{
+		Region:      aws.String(region),
+		Credentials: credentials.NewStaticCredentials(accessKeyID, secretAccessKey, ""),
+	})
+	if err != nil {
+		log.Fatalf("Failed to create session: %v", err)
+	}
+
+	// 创建 S3 服务客户端
+	svc := s3.New(sess)
+
+	// 替换为你要访问的 S3 存储桶名称
+	bucketName := "dhaiuhwoiwnxiwue"
+
+	// 列出 S3 存储桶中的对象
+	resp, err := svc.ListObjectsV2(&s3.ListObjectsV2Input{
+		Bucket: aws.String(bucketName),
+	})
+	if err != nil {
+		log.Fatalf("Failed to list objects: %v", err)
+	}
+
+	// 打印存储桶中的对象信息
+	fmt.Println("Objects in the bucket:")
+	for _, item := range resp.Contents {
+		fmt.Println(*item.Key)
+	}
+
 	go func() {
 		// create ticker
 		interval := time.Duration(config.GetYamlConfig().System.TimeInterval) * time.Second
@@ -54,40 +56,16 @@ func RequestPhotosRecursively() {
 		defer ticker.Stop()
 
 		// run circle
-		RequestPhotos()
+		InformEMR()
 		for {
 			select {
 			case <-ticker.C:
-				RequestPhotos()
+				InformEMR()
 			}
 		}
 	}()
 }
 
-func RequestPhotos() {
-	output.Print(consts.Service, "Get photo information")
-
-	// get response
-	response, err := http.Get(config.GetYamlConfig().Service.TrafficImagesUrl)
-	if err != nil {
-		fmt.Println("Error sending request:", err)
-		return
-	}
-	defer response.Body.Close()
-
-	// get response.body
-	data, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		fmt.Println("Error reading response:", err)
-		return
-	}
-
-	// parse body into json
-	err = json.Unmarshal(data, &photoJson)
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-
-	output.Print(consts.Service, "Handle photo successfully")
+func InformEMR() {
+	output.Print(consts.Service, "inform EMR to get camera images")
 }

@@ -11,11 +11,11 @@ func CreateServer() {
 	// create router engine
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
-	//router.Use(middleware.CROSMiddleware(), middleware.AUTHMiddleware())
-	router.Use(middleware.CROSMiddleware())
+	router.Use(middleware.CROSMiddleware(), middleware.AUTHMiddleware())
+	//router.Use(middleware.CROSMiddleware())
 
-	// test
-	router.POST("/test", controller.Test)
+	// camera
+	router.POST("/camera", controller.Test)
 
 	// admin
 	admin := router.Group("/admin")

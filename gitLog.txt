@@ -1,0 +1,373 @@
+commit 085bcbca4b715c53d04d30362ae9181585f0a5e2
+Merge: 169d13d ff6d20f
+Author: Cowboy-Spike-Spiegel <3241146630@qq.com>
+Date:   Thu Jul 20 18:35:36 2023 +0800
+
+    Merge branch 'master' of https://github.com/Spike618/SWS2023-Home-Work-Traffic
+
+commit 169d13dbf849126351b31b30f82c24de74db7371
+Author: Cowboy-Spike-Spiegel <3241146630@qq.com>
+Date:   Thu Jul 20 18:35:09 2023 +0800
+
+    <ADD>graph初始化
+
+commit ff6d20f994b7f38161cc90612de2306d8535b29b
+Author: AryCra07 <703810491@qq.com>
+Date:   Thu Jul 20 18:01:17 2023 +0800
+
+    update
+
+commit 7cbb45593d70acf5cd9ec8f0b786353323fdc70a
+Author: AryCra07 <703810491@qq.com>
+Date:   Thu Jul 20 17:54:09 2023 +0800
+
+    update
+
+commit 539482da574ec1c9b0005ab7f690eb4681ba9163
+Author: AryCra07 <703810491@qq.com>
+Date:   Thu Jul 20 17:20:37 2023 +0800
+
+    update
+
+commit 2b8f11e8e10dc470e09f461cb2b83801384f4046
+Author: AryCra07 <703810491@qq.com>
+Date:   Thu Jul 20 16:35:39 2023 +0800
+
+    update
+
+commit cd6a87f0705374b42b8847c36a5428dd9068efcf
+Merge: 43642e7 4c88104
+Author: AryCra07 <703810491@qq.com>
+Date:   Thu Jul 20 03:10:01 2023 +0800
+
+    Merge branch 'syh'
+
+commit 43642e7520d4703f5209cdf89f191bd4feb13a67
+Author: AryCra07 <703810491@qq.com>
+Date:   Thu Jul 20 03:09:07 2023 +0800
+
+    update search&route
+
+commit 4c881047092f58ca2c51f17a440a9b3270381c39
+Author: Cowboy-Spike-Spiegel <3241146630@qq.com>
+Date:   Thu Jul 20 01:54:37 2023 +0800
+
+    <ADD>basic backend
+
+commit 4bfe5080bfc064b62c851327f89ffcf9fc419d13
+Author: Cowboy-Spike-Spiegel <3241146630@qq.com>
+Date:   Thu Jul 20 01:51:25 2023 +0800
+
+    <DELETE>delete backend in master
+
+commit c6cc8ee012b30c045093ab0ec657468588a136c0
+Merge: 4f5fe65 092c71b
+Author: MengYueqi <1691129074@qq.com>
+Date:   Wed Jul 19 17:09:20 2023 +0800
+
+    Merge branch 'myq'
+
+commit 092c71b52feff5ac7b291707916304bd8ab3370f
+Author: MengYueqi <1691129074@qq.com>
+Date:   Wed Jul 19 17:04:46 2023 +0800
+
+    delete some useless files
+
+commit 4f5fe651360f3c84c3b4c9a44487efde74d8c917
+Merge: a060402 408120b
+Author: wxy4869 <wangxinyuan4869@163.com>
+Date:   Wed Jul 19 13:46:39 2023 +0800
+
+    Merge branch 'wxy'
+
+commit 408120bd24fd005c9ceeec0c72f6d14218e105d1
+Author: wxy4869 <wangxinyuan4869@163.com>
+Date:   Wed Jul 19 13:46:16 2023 +0800
+
+    graph
+
+commit a0604027fe372cb9e42bd8d7399cdce32a6765b0
+Author: AryCra07 <703810491@qq.com>
+Date:   Wed Jul 19 10:53:28 2023 +0800
+
+    update
+
+commit c4c56f4a69754442250ff629c731cbc169e27a32
+Merge: 1d74e37 eeadba1
+Author: AryCra07 <703810491@qq.com>
+Date:   Wed Jul 19 10:31:51 2023 +0800
+
+    Merge branch 'master' into syh
+
+commit 1d74e3781f12cf6e3decb20dcaade267b4d6fda3
+Author: AryCra07 <703810491@qq.com>
+Date:   Wed Jul 19 10:31:16 2023 +0800
+
+    update
+
+commit eeadba1f9db78292356f4df19f0ff713c98644b8
+Merge: d08280b 20ab3de
+Author: Cowboy-Spike-Spiegel <3241146630@qq.com>
+Date:   Wed Jul 19 00:35:54 2023 +0800
+
+    Merge branch 'mtc'
+
+commit 20ab3dea7f1f23fc96e0e9c8bba17f2bad9ba912
+Author: Cowboy-Spike-Spiegel <3241146630@qq.com>
+Date:   Wed Jul 19 00:34:44 2023 +0800
+
+    <FIX>路径查询接口<ADJUST>config&const模块
+
+commit d08280b043ff5fb2fb52c62169688b048c8de54c
+Author: AryCra07 <703810491@qq.com>
+Date:   Tue Jul 18 22:54:38 2023 +0800
+
+    update
+
+commit ab73a1c2e360f97bca49a98bd48a0cf9a5c9935a
+Merge: 6747d52 14239b7
+Author: AryCra07 <703810491@qq.com>
+Date:   Tue Jul 18 20:05:17 2023 +0800
+
+    Merge branch 'master' into syh
+
+commit 6747d52a292a434991fcab69aefa5e105ac5f108
+Author: AryCra07 <703810491@qq.com>
+Date:   Tue Jul 18 20:04:36 2023 +0800
+
+    update front
+
+commit 14239b7d9600660436e3e8e35a22d94e90136f2d
+Merge: 60d6cf4 3598791
+Author: Cowboy-Spike-Spiegel <3241146630@qq.com>
+Date:   Tue Jul 18 17:44:44 2023 +0800
+
+    Merge branch 'mtc'
+
+commit 359879175073062ac22f776d68a26ba47954799a
+Author: Cowboy-Spike-Spiegel <3241146630@qq.com>
+Date:   Tue Jul 18 17:42:28 2023 +0800
+
+    <ADJUST>路径模块<ADD>test模块
+
+commit 60d6cf4c98beba9c407a50d6e30dbf83004fd478
+Merge: a925350 c6791cf
+Author: Cowboy-Spike-Spiegel <3241146630@qq.com>
+Date:   Tue Jul 18 17:24:01 2023 +0800
+
+    Merge branch 'master' of https://github.com/Spike618/SWS2023-Home-Work-Traffic
+
+commit a92535095e138684d5d9c253911fdda2c0fbb742
+Merge: 88e8e68 c40c361
+Author: Cowboy-Spike-Spiegel <3241146630@qq.com>
+Date:   Tue Jul 18 17:22:04 2023 +0800
+
+    Merge branch 'master' into mtc
+
+commit 88e8e682f1ff49ae7743dcdc836ae5795ecbba29
+Author: Cowboy-Spike-Spiegel <3241146630@qq.com>
+Date:   Tue Jul 18 17:16:13 2023 +0800
+
+    <ADJUST>路径查询<ADD>test模块
+
+commit c6791cfc1605e46767c2a81b5778d228b08a163e
+Merge: 9a8b259 0c0f6b0
+Author: wxy4869 <wangxinyuan4869@163.com>
+Date:   Tue Jul 18 17:09:24 2023 +0800
+
+    Merge branch 'master' into wxy
+
+commit 9a8b25970ed5f361ca03676a1a6e01b112f99b6a
+Author: wxy4869 <wangxinyuan4869@163.com>
+Date:   Tue Jul 18 17:08:30 2023 +0800
+
+    wxy
+
+commit 0c0f6b024d9e565003e4a01fcea12d318e11972b
+Author: MengYueqi <1691129074@qq.com>
+Date:   Tue Jul 18 16:49:44 2023 +0800
+
+    merge myq
+
+commit 6006beaf4a51c030ac6b183a491a40a257453248
+Author: MengYueqi <1691129074@qq.com>
+Date:   Tue Jul 18 16:44:08 2023 +0800
+
+    add new training result, fix a bug
+
+commit 87badc404d4901028c46595f7ec54fae06039ee4
+Merge: 301bbd1 3f9dedc
+Author: MengYueqi <1691129074@qq.com>
+Date:   Mon Jul 17 21:05:34 2023 +0800
+
+    Merge branch 'myq'
+
+commit 3f9dedccd39dd87022f7500c82dbae9762bbfe5e
+Author: MengYueqi <1691129074@qq.com>
+Date:   Mon Jul 17 21:01:19 2023 +0800
+
+    do not save photos
+
+commit 301bbd159eb8a2cdc0ad9d214d8e849396667f54
+Merge: 234d96a 8a7601a
+Author: MengYueqi <1691129074@qq.com>
+Date:   Mon Jul 17 17:45:01 2023 +0800
+
+    Merge branch 'master' of https://github.com/Spike618/SWS2023-Home-Work-Traffic
+
+commit 234d96ab70c94b79459b225c91474fc858e390c6
+Merge: 407df53 3b778b0
+Author: MengYueqi <1691129074@qq.com>
+Date:   Mon Jul 17 17:44:41 2023 +0800
+
+    fix bugs
+
+commit 8a7601ab7de9cef6b6bc1e78a72292e41997cd3e
+Merge: 407df53 42b9968
+Author: wxy4869 <wangxinyuan4869@163.com>
+Date:   Mon Jul 17 17:39:05 2023 +0800
+
+    Merge branch 'wxy'
+
+commit 42b996864ec6a65546e5613707bec0088d8f83fa
+Author: wxy4869 <wangxinyuan4869@163.com>
+Date:   Mon Jul 17 17:38:28 2023 +0800
+
+    congestion
+
+commit 3b778b09ca447c71b236ea4bacff1704eb1bb99b
+Author: MengYueqi <1691129074@qq.com>
+Date:   Mon Jul 17 17:34:20 2023 +0800
+
+    do not store photos
+
+commit 181aeaec8cdf2cf29dbc3ef2c04f6a962e728cb0
+Author: MengYueqi <1691129074@qq.com>
+Date:   Mon Jul 17 17:23:07 2023 +0800
+
+    fix bugs
+
+commit 407df537986f12772e805556dc8ad8f7e5693636
+Author: MengYueqi <1691129074@qq.com>
+Date:   Mon Jul 17 17:20:26 2023 +0800
+
+    fix bugs
+
+commit 19e8d294c58616df44f0f487b6976d171d65cbeb
+Author: wxy4869 <wangxinyuan4869@163.com>
+Date:   Mon Jul 17 17:09:41 2023 +0800
+
+    wxy
+
+commit c40ac6376d0f13c922c99ce85b6b41c8c270f48e
+Merge: 2a49463 ad78fdc
+Author: wxy4869 <wangxinyuan4869@163.com>
+Date:   Mon Jul 17 17:01:15 2023 +0800
+
+    Merge branch 'master' into wxy
+
+commit 2a4946321ca10c8bf45ab02b3d031f548261e657
+Author: wxy4869 <wangxinyuan4869@163.com>
+Date:   Mon Jul 17 17:00:36 2023 +0800
+
+    wxy
+
+commit ad78fdcc59184c802a12c5dc1084065297cc2463
+Merge: 31a6d5a 7f27964
+Author: MengYueqi <1691129074@qq.com>
+Date:   Mon Jul 17 16:29:18 2023 +0800
+
+    Merge branch 'myq'
+
+commit 7f27964cfa84a4f7c54e20ca7ca5b9e517471318
+Author: MengYueqi <1691129074@qq.com>
+Date:   Mon Jul 17 16:28:13 2023 +0800
+
+    change the func in count_vehicles.py
+
+commit 31a6d5a1bfe9fd9dd6a7939d9842319384e49a16
+Author: wxy4869 <wangxinyuan4869@163.com>
+Date:   Mon Jul 17 16:04:35 2023 +0800
+
+    congestion
+
+commit c40c361d4580622305492c7fd324db266afdeb5b
+Merge: 47468cd 7cc601a
+Author: Cowboy-Spike-Spiegel <3241146630@qq.com>
+Date:   Sun Jul 16 22:33:44 2023 +0800
+
+    Merge branch 'master' of https://github.com/Spike618/SWS2023-Home-Work-Traffic
+
+commit 47468cdc0f63874c75e80da2010c5b4d667da0e4
+Author: Cowboy-Spike-Spiegel <3241146630@qq.com>
+Date:   Sun Jul 16 22:31:38 2023 +0800
+
+    <ADD>周期申请图片url
+
+commit 7cc601a646579fab75f05382cc8d1cb406d4809f
+Merge: 3ae55f8 d0bbad1
+Author: MengYueqi <1691129074@qq.com>
+Date:   Sun Jul 16 21:26:29 2023 +0800
+
+    Merge branch 'myq'
+
+commit d0bbad15e26791ad13665ca2ae18984a636baa02
+Author: MengYueqi <1691129074@qq.com>
+Date:   Sun Jul 16 21:20:22 2023 +0800
+
+    use yolov5 to detect
+
+commit 3ae55f8cdff4ac496344c7052bf9d05bd5555512
+Author: Cowboy-Spike-Spiegel <3241146630@qq.com>
+Date:   Sun Jul 16 00:23:27 2023 +0800
+
+    <ADD>backend frame
+
+commit 9d00dead30ba694774b3a84a76d8540f3b369a4c
+Author: AryCra07 <703810491@qq.com>
+Date:   Sat Jul 15 23:59:15 2023 +0800
+
+    update
+
+commit 0cf26edc11619c40205053cddfcbc956e2f515aa
+Author: AryCra07 <703810491@qq.com>
+Date:   Sat Jul 15 23:43:36 2023 +0800
+
+    frontend init
+
+commit 129e51a844828fa5c5413e1802cac98c5f7af7e2
+Author: MengYueqi <1691129074@qq.com>
+Date:   Sat Jul 15 10:34:11 2023 +0800
+
+    “模型训练结果”
+
+commit 262868f3b8a7dd55f983fb57293e64cb9175031b
+Merge: f7618d1 975d6b9
+Author: Zzystudio <zh20011231@mail.ustc.edu.cn>
+Date:   Fri Jul 14 15:28:15 2023 +0800
+
+    Merge branch 'master' of https://github.com/Spike618/SWS2023-Home-Work-Traffic
+
+commit f7618d1c477527b1de6d401350ed40518841f92a
+Author: Zzystudio <zh20011231@mail.ustc.edu.cn>
+Date:   Fri Jul 14 15:26:15 2023 +0800
+
+    implement count_vehicles module
+
+commit 975d6b9f53d221c0140b8684791467011e64874d
+Author: wxy4869 <wangxinyuan4869@163.com>
+Date:   Fri Jul 14 14:05:23 2023 +0800
+
+    camera location
+
+commit 3a2b250ff06bd331e9b966940699d8f673766e44
+Author: wxy4869 <wangxinyuan4869@163.com>
+Date:   Thu Jul 13 18:44:42 2023 +0800
+
+    algorithm init
+
+commit 88d1858c7d17b20fd0fbff2c606c730873c20e38
+Author: Spike Spiegel <88441952+Spike618@users.noreply.github.com>
+Date:   Fri Jul 7 14:03:15 2023 +0800
+
+    Initial commit

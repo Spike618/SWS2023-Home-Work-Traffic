@@ -37,7 +37,7 @@ func UserLoginPost(c *gin.Context) {
 
 	// login
 	output.Print(consts.Controller, "Login with email="+email+", password="+password)
-	ok, id, auth := service.Login(email, password)
+	ok, id, auth, point1, point2 := service.Login(email, password)
 
 	// send response
 	if ok {
@@ -48,7 +48,9 @@ func UserLoginPost(c *gin.Context) {
 			"code": consts.SUCCESS,
 			"msg":  "Login success",
 			"data": gin.H{
-				"token": token,
+				"token":  token,
+				"point1": point1,
+				"point2": point2,
 			},
 		})
 	} else {
@@ -57,7 +59,9 @@ func UserLoginPost(c *gin.Context) {
 			"code": consts.FAIL,
 			"msg":  "Login fail",
 			"data": gin.H{
-				"token": nil,
+				"token":  nil,
+				"point1": nil,
+				"point2": nil,
 			},
 		})
 	}
