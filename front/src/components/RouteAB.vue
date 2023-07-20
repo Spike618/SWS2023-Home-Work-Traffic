@@ -137,30 +137,67 @@ export default {
       }
     },
 
-    drawRoutes() {
-      console.log("draw");
-      const tt = window.tt;
-      const waypoints = this.points.map((point) => ({
-        lat: point.lat,
-        lon: point.lon,
-      }));
+    drawRoutes(route) {
+      console.log('draw');
+      const popupOffsets = {
+        top: [0, 0],
+        bottom: [0, -30],
+        'bottom-right': [0, -30],
+        'bottom-left': [0, -30],
+        left: [25, -35],
+        right: [-25, -35]
+      };
 
-      console.log(waypoints[1]);
-
-      for (let i = 0; i < 9; i++) {
-        let p1 = [waypoints[i].lat, waypoints[i].lon];
-        let p2 = [waypoints[i + 1].lat, waypoints[i + 1].lon];
-        // console.log(p1, p2);
+      for (let i = 0; i < route.length - 1; i++) {
+        const popupOffsets = {
+          top: [0, 0],
+          bottom: [0, -30],
+          'bottom-right': [0, -30],
+          'bottom-left': [0, -30],
+          left: [25, -35],
+          right: [-25, -35]
+        };
+        const Lon1 = route[i].Lon;
+        console.log(route[i].Lon);
+        const Lat1 = route[i].Lat;
+        const Lon2 = route[i+1].Lon;
+        const Lat2 = route[i+1].Lat;
+        let p1 = [Lon1, Lat1];
+        let p2 = [Lon2, Lat2];
+        const marker1 = new tt.Marker().setLngLat(toRaw(p1)).addTo(toRaw(this.map));
+        const marker2 = new tt.Marker().setLngLat(toRaw(p2)).addTo(toRaw(this.map));
+        const popup = new tt.Popup({offset: popupOffsets}).setText('1');
+        marker1.setPopup(popup);
+        marker2.setPopup(new tt.Popup({offset: popupOffsets}).setText('2'));
         tt.services
             .calculateRoute({
               key: 'ze8YSxPAewmBAh4GbX0coKQz6Yuib3Bz',
               locations: p1 + ':' + p2,
               travelMode: 'car',
             })
-            .then((route) => {
-              const lineString = new tt.GeoJson.LineString(route.paths[0].points);
-              const routeLayer = new tt.Layer({type: 'LineString', data: lineString});
-              this.map.addLayer(routeLayer);
+            .then((response) => {
+              let geojson = response.toGeoJson();
+              console.log("addRouteLayer");
+              this.map.addLayer({
+                'id': 'route',
+                'type': 'line',
+                'source': {
+                  'type': 'geojson',
+                  'data': geojson
+                },
+                'paint': {
+                  'line-color': '#00d7ff',
+                  'line-width': 8
+                }
+              });
+              // state.routeId = 'route';
+              // state.routePoints = geojson.features[0].geometry.coordinates;
+              let bounds = new tt.LngLatBounds();
+              geojson.features[0].geometry.coordinates.forEach(function (point) {
+                bounds.extend(tt.LngLat.convert(point));
+              });
+              this.map.fitBounds(bounds, {duration: 0, padding: 100});
+              // loadingHint.hide();
             })
             .catch((error) => {
               console.error('Error drawing route:', error);
@@ -476,17 +513,21 @@ export default {
         //   'destinationLat': destinationLat
         // }
         const data = {
-          'originLon': 13.42936,
-          'originLat': 52.5093,
-          'destinationLon': 13.42859,
-          'destinationLat': 52.50844
+          'originLon': 103.785469,
+          'originLat': 1.298766,
+          'destinationLon': 103.779688,
+          'destinationLat': 1.292424
         }
         console.log(data);
-        await getRoute(data).then((response) => {
-          console.log('getRouteData');
-          console.log(response.data[0]);
-        });
-        // this.markPointsOnMap(pointsData);
+        const response = await getRoute(data);
+        const respData = response.data;
+        const routes = respData[0];
+        console.log(routes);
+        console.log(routes[0]);
+        // for (const route in routes) {
+        //   this.drawRoutes(route);
+        // }
+        this.drawRoutes(routes[0]);
       } catch (error) {
         console.error('Error fetching points data:', error);
       }

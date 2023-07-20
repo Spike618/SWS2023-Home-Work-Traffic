@@ -5,7 +5,7 @@ import { ElLoading } from 'element-plus'
 
 const service=axios.create({
     baseURL:"api/",
-    timeout:50000,
+    timeout:100000,
     headers:{
         "Content-Type":"application/json;charset=utf-8"
     }
