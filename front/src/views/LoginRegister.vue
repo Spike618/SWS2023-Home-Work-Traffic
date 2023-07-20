@@ -15,7 +15,7 @@
           <br/>
           <button @click="signUpMode=!signUpMode" class="btn transparent">&lt;&lt; Register</button>
         </div>
-        <img src="@/assets/img/1.svg" class="image" alt=""/>
+        <img src="@/assets/orange-map.svg" class="image" alt=""/>
       </div>
 
       <div class="panel right-panel">
@@ -24,7 +24,7 @@
           <br/>
           <button @click="signUpMode=!signUpMode" class="btn transparent">Go Login >></button>
         </div>
-        <img src="@/assets/img/2.svg" class="image" alt=""/>
+        <img src="@/assets/orange-map.svg" class="image" alt=""/>
       </div>
     </div>
   </div>
@@ -45,7 +45,7 @@ const signUpMode = ref(false)
 .container {
   /*position: relative;*/
   /*width: 100vw;*/
-  background-image: linear-gradient(-45deg, #000000 0%, #04befe 100%);
+  background-image: linear-gradient(-45deg, #FFFFFF 0%, #04befe 100%);
   /*height: 100vh;*/
   overflow: hidden;
   width: 100%;
@@ -128,7 +128,7 @@ const signUpMode = ref(false)
 }
 
 .btn:hover {
-  background-color: #000;
+  background-color: #000000;
 }
 
 .panels-container {
