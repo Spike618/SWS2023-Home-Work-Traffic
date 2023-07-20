@@ -20,7 +20,7 @@ func Print(layer string, info string) {
 	if os.Args[1] == consts.ModeTest {
 		fmt.Println("\t" + info)
 	} else if os.Args[1] == consts.ModeRelease {
-		if strings.Contains(layer, "Dao") != true {
+		if strings.Contains(layer, consts.Dao) != true {
 			fmt.Println("\t" + info)
 		}
 	}

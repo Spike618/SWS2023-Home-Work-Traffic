@@ -36,7 +36,9 @@ func UserIndexPost(c *gin.Context) {
 	}
 
 	// process path with congestion
-	routes := service.SearchPath(request.OriginLat, request.OriginLon, request.DestinationLat, request.DestinationLon)
+	userId, _ := c.Get("UserId")
+	id, _ := userId.(int)
+	routes := service.SearchPath(id, request.OriginLat, request.OriginLon, request.DestinationLat, request.DestinationLon)
 
 	// send response
 	output.Print(consts.Controller, fmt.Sprintf("Find routes for (%.6f,%.6f:%.6f,%.6f)",

@@ -1,6 +1,7 @@
 package consts
 
 // information
+const EmptyStr = ""
 const ModeTest = "test"
 const ModeRelease = "release"
 
@@ -8,6 +9,7 @@ const Main = "Main"
 const Config = "Config"
 const Controller = "Controller"
 const Service = "Service"
+const Dao = "Dao"
 
 const InvalidRequest = "Request is invalid"
 
