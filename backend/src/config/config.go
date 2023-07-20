@@ -47,7 +47,7 @@ func Init(file string) error {
 		return err
 	}
 
-	output.Print(consts.Config, "config init")
+	output.Print(consts.Config, "read config.yaml")
 	return nil
 }
 

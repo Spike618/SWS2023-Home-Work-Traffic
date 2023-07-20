@@ -46,9 +46,9 @@ func SearchPath(originLat, originLon, destinationLat, destinationLon float64) []
 			for index := 0; index < len(leg.Points); index++ {
 				point := leg.Points[index]
 				jobs <- Point{
-					Index: index,
-					Lat:   point.Latitude,
-					Lon:   point.Longitude,
+					Id:  index,
+					Lat: point.Latitude,
+					Lon: point.Longitude,
 				}
 			}
 			close(jobs)
@@ -59,7 +59,7 @@ func SearchPath(originLat, originLon, destinationLat, destinationLon float64) []
 
 			// generate congestion of this leg
 			for result := range results {
-				legCongestion[result.Index] = result
+				legCongestion[result.Id] = result
 			}
 			// add leg into route
 			routeCongestion = append(routeCongestion, legCongestion)
@@ -69,6 +69,7 @@ func SearchPath(originLat, originLon, destinationLat, destinationLon float64) []
 	}
 
 	output.Print(consts.Service, "Generate routes with point-congestion successfully")
+	fmt.Println(routesCongestion)
 	return routesCongestion
 }
 
@@ -107,7 +108,7 @@ func Worker(jobs <-chan Point, results chan<- Point, wg *sync.WaitGroup) {
 		congestion := CalPointCongestion(j.Lat, j.Lon)
 
 		var result Point
-		result.Index = j.Index
+		result.Id = j.Id
 		result.Lat = j.Lat
 		result.Lon = j.Lon
 		result.Congestion = congestion

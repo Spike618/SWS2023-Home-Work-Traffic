@@ -3,6 +3,7 @@ package controller
 import (
 	"demo/src/consts"
 	"demo/src/output"
+	"demo/src/service"
 	"encoding/csv"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -26,23 +27,20 @@ func Test(c *gin.Context) {
 
 	// read content
 	ReadCsv := csv.NewReader(opencast)
-	ReadAll, err := ReadCsv.ReadAll() //返回切片类型：[[s s ds] [a a a]]
+	ReadAll, err := ReadCsv.ReadAll()
 
-	type Triplet struct {
-		Id  int
-		Lat float64
-		Lon float64
-	}
-	slice := make([]Triplet, 0)
-	for _, record := range ReadAll {
+	// get camera locations
+	slice := make([]service.Point, 0)
+	for i := 1; i < len(ReadAll); i++ {
+		record := ReadAll[i]
 		id, _ := strconv.Atoi(record[0])
 		lat, _ := strconv.ParseFloat(record[2], 64)
 		lon, _ := strconv.ParseFloat(record[3], 64)
-		triplet := Triplet{Id: id, Lat: lat, Lon: lon}
-		slice = append(slice, triplet)
+		point := service.Point{Id: id, Lat: lat, Lon: lon}
+		slice = append(slice, point)
 	}
 
-	// process user login
+	// process test
 	output.Print(consts.Controller, "test")
 	c.JSON(http.StatusOK, gin.H{
 		"code": consts.SUCCESS,
