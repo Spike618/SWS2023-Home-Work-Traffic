@@ -6,14 +6,14 @@
       label-width="120px"
       class="Login_Form sign-in-form"
   >
-    <el-form-item class="item_style" label="用户名" prop="username">
+    <el-form-item class="item_style" label="Email" prop="email">
       <el-input
           class="input-transparent"
-          v-model="loginUser.username"
-          placeholder="Enter username"
+          v-model="loginUser.email"
+          placeholder="Enter email"
       />
     </el-form-item>
-    <el-form-item class="item_style" label="密码" prop="password">
+    <el-form-item class="item_style" label="Password" prop="password">
       <el-input
           class="input-transparent"
           v-model="loginUser.password"
@@ -24,7 +24,7 @@
     </el-form-item>
 
     <el-form-item>
-      <el-button color="#0000000" @click="Justic_Login('Login')" class="submit_btn">登录</el-button>
+      <el-button color="#0000000" @click="Justic_Login('Login')" class="submit_btn">Register</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -56,7 +56,7 @@ export default {
     const Justic_Login = (foreName: string) => {
       ctx.$refs[foreName].validate((valid: boolean) => {
         if (valid) {
-          const data = {"account":(props.loginUser.username),"password":(props.loginUser.password)}
+          const data = {"Email":(props.loginUser.email),"Password":(props.loginUser.password)}
           login(JSON.stringify(data)).then((res:any)=>{
             console.log(res)
             if (res['code']==0)
@@ -78,7 +78,7 @@ export default {
       });
     };
     const failure = ()=>{
-      ElMessage('用户名或密码错误。')
+      ElMessage('Wrong username or password!')
       console.log()
     }
     return {Justic_Login}

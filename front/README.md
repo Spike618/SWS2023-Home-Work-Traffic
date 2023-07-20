@@ -1,15 +1,9 @@
 
 
-BUPT Software Engineering
-===========================
-
-##### BUPT软件工程大作业——充电桩系统
 
 
 
-###### part: 管理员端前端
 
-###### contributors: 2020211375-李祥宇、2020211394-王陆萱
 
 
 
@@ -30,7 +24,7 @@ WebStorm  v2023.1.2
 
 
 #### 3. 管理员端目录结构描述
-
+```
 │  .browserslistrc
 │  .gitignore
 │  babel.config.js
@@ -92,7 +86,7 @@ WebStorm  v2023.1.2
             Admin.vue
             Login_Register.vue
             NotFound.vue
-
+```
 
 
 #### 4. 部署说明

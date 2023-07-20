@@ -21,7 +21,7 @@ const startloading = ()=>{
 
     const options:Options = {
         lock:true,
-        text:"加载中",
+        text:"loading...",
         background:'rgba(0,0,0,0.7)'
     }
     loading = ElLoading.service(options);

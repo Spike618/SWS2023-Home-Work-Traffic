@@ -4,43 +4,61 @@
     <div class="forms-container">
       <div class="signin-signup">
         <LoginForm :loginUser="loginUser" :rules="rules"/>
+        <RegisterForm :registerUser="registerUser" :registerRules="registerRules"/>
       </div>
     </div>
     <!--动画-->
     <div class="panels-container">
       <div class="panel left-panel">
         <div class="content">
-          <h3>欢迎使用智能充电桩调度系统</h3>
+          <h3>Welcome to Commute Ease!</h3>
           <br/>
+          <button @click="signUpMode=!signUpMode" class="btn transparent">&lt;&lt; Register</button>
         </div>
-        <img src="@/assets/img/1.svg" class="image" alt=""/>
+        <img src="@/assets/img/white-map.svg" class="image" alt=""/>
+      </div>
+
+      <div class="panel right-panel">
+        <div class="content">
+          <h3>Register in this page!</h3>
+          <br/>
+          <button @click="signUpMode=!signUpMode" class="btn transparent">Go Login >></button>
+        </div>
+        <img src="@/assets/img/white-map.svg" class="image" alt=""/>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import {ref} from "vue"
-import {loginUser, rules} from '@/utils/Login'
+import {loginUser, rules} from '@/class/Login'
+import {registerRules, registerUser} from '@/class/Register'
+import RegisterForm from "@/components/RegisterForm.vue";
 import LoginForm from "@/components/LoginForm.vue";
 
-export default {
-  name: "Login_Register",
-  components: {LoginForm},
-  setup() {
-    const signUpMode = ref(false)
-    return {signUpMode, loginUser, rules}
-  }
-}
+const signUpMode = ref(false)
+
 </script>
 
 <style scoped>
 .container {
-  position: relative;
-  width: 100%;
-  background-image: linear-gradient(-45deg, #000000 0%, #04befe 100%);
-  min-height: 100vh;
+  /*position: relative;*/
+  /*width: 100vw;*/
+  background-image: linear-gradient(-45deg, #111111 0%, #04befe 100%);
+  /*height: 100vh;*/
   overflow: hidden;
+  width: 100%;
+  height: 100%;
+  /*background-image: url("../assets/background.jpg");*/
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .forms-container {
@@ -64,10 +82,59 @@ export default {
   z-index: 5;
 }
 
+.social-text {
+  padding: 0.7rem 0;
+  font-size: 1rem;
+}
+
+.social-media {
+  display: flex;
+  justify-content: center;
+}
+
+.social-icon {
+  height: 46px;
+  width: 46px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0.45rem;
+  color: #333;
+  border-radius: 50%;
+  border: 1px solid #333;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: 0.3s;
+}
+
+.social-icon:hover {
+  color: #4481eb;
+  border-color: #4481eb;
+}
+
+.btn {
+  width: 150px;
+  background-color: #5995fd;
+  border: none;
+  outline: none;
+  height: 49px;
+  border-radius: 49px;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin: 10px 0;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.btn:hover {
+  background-color: #000;
+}
+
 .panels-container {
   position: absolute;
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
   top: 0;
   left: 0;
   display: grid;
