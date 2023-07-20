@@ -43,3 +43,11 @@ export function test() {
         method: 'POST',
     })
 }
+
+export function getRoute(data: any) {
+    return service({
+        url: '/user/index',
+        method: 'POST',
+        data: data
+    })
+}

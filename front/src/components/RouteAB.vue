@@ -30,8 +30,7 @@ import Foldable from '../assets/js/foldable'
 // import SearchBox from "../assets/js/search/search-box-web";
 import handleEnterSubmit from '../assets/js/search/searchbox-enter-submit.js'
 // import TailSelector from '../assets/js/tail-selector.js'
-import fuzzySearch from 'fuzzysearch'
-import {test} from "@/api/api";
+import {test, getRoute} from "@/api/api";
 
 export default {
   name: "RouteAB",
@@ -449,16 +448,43 @@ export default {
     onResultSelected(result, type) {
       const pos = result.position;
       this.state[type] = [pos.lng, pos.lat];
-      console.log("pos")
+      console.log("accurate position")
       console.log(this.state[type])
-      console.log("pos")
 
       if (type === 'start') {
         this.setCloseButton();
       }
 
       this.drawMarker(type, result.viewport);
-      this.calculateRoute();
+
+      if (this.state.start && this.state.finish) {
+        this.getRecommendRoute();
+      }
+      // this.calculateRoute();
+    },
+
+    async getRecommendRoute() {
+      try {
+        // const data = {
+        //   'originLon': this.state.start[1],
+        //   'originLat': this.state.start[0],
+        //   'destinationLon': this.state.finish[1],
+        //   'destinationLat': this.state.finish[0]
+        // }
+        const data = {
+          'originLon': 13.42936,
+          'originLat': 52.5093,
+          'destinationLon': 52.50844,
+          'destinationLat': 13.42859
+        }
+        console.log(data);
+        await getRoute(data).then((response) => {
+          console.log(response.data.toString());
+        });
+        // this.markPointsOnMap(pointsData);
+      } catch (error) {
+        console.error('Error fetching points data:', error);
+      }
     },
 
     onResultCleared(type) {
