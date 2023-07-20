@@ -25,11 +25,6 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../views/User.vue')
     },
     {
-        path: '/map',
-        name: 'TomMap',
-        component: () => import('../components/TomMap.vue')
-    },
-    {
         path: '/route',
         name: 'Route',
         component: () => import('../components/RouteAB.vue')

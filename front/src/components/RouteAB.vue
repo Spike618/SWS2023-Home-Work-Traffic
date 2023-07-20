@@ -75,7 +75,7 @@ export default {
   methods: {
     initMap() {
       this.map = tt.map({
-        key: "wUIehlXj4kLvG4iYiDAvvjoA4OXdA3Mu",
+        key: "ze8YSxPAewmBAh4GbX0coKQz6Yuib3Bz",
         container: "map",
       });
       this.map.on('load', () => {
@@ -153,7 +153,7 @@ export default {
         // console.log(p1, p2);
         tt.services
             .calculateRoute({
-              key: 'wUIehlXj4kLvG4iYiDAvvjoA4OXdA3Mu',
+              key: 'ze8YSxPAewmBAh4GbX0coKQz6Yuib3Bz',
               locations: p1 + ':' + p2,
               travelMode: 'car',
             })
@@ -186,7 +186,7 @@ export default {
       marker2.setPopup(new tt.Popup({offset: popupOffsets}).setText('2'));
       tt.services
           .calculateRoute({
-            key: 'wUIehlXj4kLvG4iYiDAvvjoA4OXdA3Mu',
+            key: 'ze8YSxPAewmBAh4GbX0coKQz6Yuib3Bz',
             locations: p1 + ':' + p2,
             travelMode: 'car',
           })
@@ -276,7 +276,7 @@ export default {
       this.state.start = [position.coords.longitude, position.coords.latitude];
 
       tt.services.reverseGeocode({
-        key: 'wUIehlXj4kLvG4iYiDAvvjoA4OXdA3Mu',
+        key: 'ze8YSxPAewmBAh4GbX0coKQz6Yuib3Bz',
         position: this.state.start
       })
           .then(this.handleRevGeoResponse.bind(this))
@@ -321,7 +321,7 @@ export default {
       let finalPos = this.state.finish.join(',');
 
       tt.services.calculateRoute({
-        key: 'wUIehlXj4kLvG4iYiDAvvjoA4OXdA3Mu',
+        key: 'ze8YSxPAewmBAh4GbX0coKQz6Yuib3Bz',
         traffic: false,
         locations: startPos + ':' + finalPos
       })
@@ -465,21 +465,26 @@ export default {
 
     async getRecommendRoute() {
       try {
+        let originLon = toRaw(this.state.start[0]);
+        let originLat = toRaw(this.state.start[1]);
+        let destinationLon = toRaw(this.state.finish[0])
+        let destinationLat = toRaw(this.state.finish[1])
         // const data = {
-        //   'originLon': this.state.start[1],
-        //   'originLat': this.state.start[0],
-        //   'destinationLon': this.state.finish[1],
-        //   'destinationLat': this.state.finish[0]
+        //   'originLon': originLon,
+        //   'originLat': originLat,
+        //   'destinationLon': destinationLon,
+        //   'destinationLat': destinationLat
         // }
         const data = {
           'originLon': 13.42936,
           'originLat': 52.5093,
-          'destinationLon': 52.50844,
-          'destinationLat': 13.42859
+          'destinationLon': 13.42859,
+          'destinationLat': 52.50844
         }
         console.log(data);
         await getRoute(data).then((response) => {
-          console.log(response.data.toString());
+          console.log('getRouteData');
+          console.log(response.data[0]);
         });
         // this.markPointsOnMap(pointsData);
       } catch (error) {
@@ -531,7 +536,7 @@ export default {
       let searchBox = new tt.plugins.SearchBox(tt.services, {
         showSearchButton: true,
         searchOptions: {
-          key: 'wUIehlXj4kLvG4iYiDAvvjoA4OXdA3Mu'
+          key: 'ze8YSxPAewmBAh4GbX0coKQz6Yuib3Bz'
         },
         labels: {
           placeholder: 'Query e.g. Beijing'
