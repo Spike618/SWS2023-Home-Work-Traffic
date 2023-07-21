@@ -30,31 +30,30 @@ func SearchPath(id int, originLat, originLon, destinationLat, destinationLon flo
 		// route congestion
 		routeCongestion := make([][]Point, 0)
 
-		// leg maybe too long, so sqrt is necessary
-		size := len(route.Legs)
-		interval := 1
-		if config.GetYamlConfig().Traffic.PointThreshold < size && size <= 2*config.GetYamlConfig().Traffic.PointThreshold {
-			interval = 2
-		} else if 2*config.GetYamlConfig().Traffic.PointThreshold < size && size <= 4*config.GetYamlConfig().Traffic.PointThreshold {
-			interval = 4
-		} else if 4*config.GetYamlConfig().Traffic.PointThreshold < size {
-			interval = int(math.Sqrt(float64(size)))
-		}
-		indexs := make([]int, 0)
-		for index := 0; index < size; index += interval {
-			indexs = append(indexs, index)
-		}
-		if (size-1)%interval != 0 {
-			indexs = append(indexs, size-1)
-		}
-		fmt.Println(interval, indexs)
-
 		// calculate leg congestion
-		for index := range indexs {
-			leg := route.Legs[index]
+		for _, leg := range route.Legs {
+			size := len(leg.Points)
+
+			// leg maybe too long, so sqrt is necessary
+			interval := 1
+			if config.GetYamlConfig().Traffic.PointThreshold < size && size <= 2*config.GetYamlConfig().Traffic.PointThreshold {
+				interval = 2
+			} else if 2*config.GetYamlConfig().Traffic.PointThreshold < size && size <= 4*config.GetYamlConfig().Traffic.PointThreshold {
+				interval = 4
+			} else if 4*config.GetYamlConfig().Traffic.PointThreshold < size {
+				interval = int(math.Sqrt(float64(size)))
+			}
+			indexs := make([]int, 0)
+			for index := 0; index < size; index += interval {
+				indexs = append(indexs, index)
+			}
+			if (size-1)%interval != 0 {
+				indexs = append(indexs, size-1)
+			}
+			fmt.Println(interval, indexs)
 
 			// leg congestion
-			legCongestion := make([]Point, len(leg.Points))
+			legCongestion := make([]Point, len(indexs))
 
 			// define job & result
 			numJobs := len(leg.Points)
@@ -71,10 +70,10 @@ func SearchPath(id int, originLat, originLon, destinationLat, destinationLon flo
 
 			// classify each point congestion of this leg -----------------------------------------
 			// send all jobs
-			for index := 0; index < len(leg.Points); index++ {
+			for i, index := range indexs {
 				point := leg.Points[index]
 				jobs <- Point{
-					Id:  index,
+					Id:  i,
 					Lat: point.Latitude,
 					Lon: point.Longitude,
 				}

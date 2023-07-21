@@ -15,7 +15,7 @@ func CreateServer() {
 	//router.Use(middleware.CROSMiddleware())
 
 	// camera
-	router.POST("/camera", controller.Test)
+	router.POST("/camera", controller.Camera)
 
 	// admin
 	admin := router.Group("/admin")

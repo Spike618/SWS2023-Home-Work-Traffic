@@ -33,7 +33,7 @@ func main() {
 			fmt.Println("Error:", err)
 			return
 		}
-		config.Init(wd + "\\config\\config.yaml")
+		config.Init(wd + "/config/config.yaml")
 
 		output.Print(consts.Main, "Init service layer")
 		service.Init()
