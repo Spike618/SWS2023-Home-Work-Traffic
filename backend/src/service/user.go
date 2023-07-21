@@ -16,12 +16,12 @@ func Register(email string, password string) bool {
 	return true
 }
 
-func Login(email string, password string) (bool, int, int) {
+func Login(email string, password string) (bool, int, int, string, string) {
 	ok, user := dao.UsersQueryByEP(email, password)
 	if !ok {
 		output.Print(consts.Service, "User not exist")
-		return false, consts.NotExistId, consts.InvalidAuth
+		return false, consts.NotExistId, consts.InvalidAuth, consts.EmptyStr, consts.EmptyStr
 	}
 	output.Print(consts.Service, "User exist")
-	return true, user.ID, user.Auth
+	return true, user.ID, user.Auth, user.Point1, user.Point2
 }

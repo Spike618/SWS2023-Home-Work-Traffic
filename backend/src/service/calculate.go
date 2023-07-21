@@ -7,7 +7,7 @@ import (
 
 func CalTomTomCongestion(cTime, fTime float64) int {
 	x := cTime / fTime
-	if config.GetYamlConfig().Traffic.CurFreeLow == 0 {
+	if x == config.GetYamlConfig().Traffic.CurFreeLow {
 		return consts.LowCongestion // low, green
 	} else if config.GetYamlConfig().Traffic.CurFreeLow < x && x <= config.GetYamlConfig().Traffic.CurFreeHigh {
 		return consts.MiddleCongestion // middle, yellow

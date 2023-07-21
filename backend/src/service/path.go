@@ -3,16 +3,23 @@ package service
 import (
 	"demo/src/config"
 	"demo/src/consts"
+	"demo/src/dao"
 	"demo/src/output"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"math"
 	"net/http"
 	"net/url"
 	"sync"
 )
 
-func SearchPath(originLat, originLon, destinationLat, destinationLon float64) [][][]Point {
+func SearchPath(id int, originLat, originLon, destinationLat, destinationLon float64) [][][]Point {
+	go func() {
+		dao.UsersUpdatePoints(id, fmt.Sprintf("%.6f,%.6f", originLat, originLon),
+			fmt.Sprintf("%.6f,%.6f", destinationLat, destinationLon))
+	}()
+
 	// find paths from API (only have one route)
 	routes := GetRoutes(originLat, originLon, destinationLat, destinationLon, config.GetYamlConfig().Service.TomTomKey)
 	output.Print(consts.Service, "Find routes successfully")
@@ -23,8 +30,29 @@ func SearchPath(originLat, originLon, destinationLat, destinationLon float64) []
 		// route congestion
 		routeCongestion := make([][]Point, 0)
 
+		// leg maybe too long, so sqrt is necessary
+		size := len(route.Legs)
+		interval := 1
+		if config.GetYamlConfig().Traffic.PointThreshold < size && size <= 2*config.GetYamlConfig().Traffic.PointThreshold {
+			interval = 2
+		} else if 2*config.GetYamlConfig().Traffic.PointThreshold < size && size <= 4*config.GetYamlConfig().Traffic.PointThreshold {
+			interval = 4
+		} else if 4*config.GetYamlConfig().Traffic.PointThreshold < size {
+			interval = int(math.Sqrt(float64(size)))
+		}
+		indexs := make([]int, 0)
+		for index := 0; index < size; index += interval {
+			indexs = append(indexs, index)
+		}
+		if (size-1)%interval != 0 {
+			indexs = append(indexs, size-1)
+		}
+		fmt.Println(interval, indexs)
+
 		// calculate leg congestion
-		for _, leg := range route.Legs {
+		for index := range indexs {
+			leg := route.Legs[index]
+
 			// leg congestion
 			legCongestion := make([]Point, len(leg.Points))
 
@@ -46,9 +74,9 @@ func SearchPath(originLat, originLon, destinationLat, destinationLon float64) []
 			for index := 0; index < len(leg.Points); index++ {
 				point := leg.Points[index]
 				jobs <- Point{
-					Index: index,
-					Lat:   point.Latitude,
-					Lon:   point.Longitude,
+					Id:  index,
+					Lat: point.Latitude,
+					Lon: point.Longitude,
 				}
 			}
 			close(jobs)
@@ -59,7 +87,7 @@ func SearchPath(originLat, originLon, destinationLat, destinationLon float64) []
 
 			// generate congestion of this leg
 			for result := range results {
-				legCongestion[result.Index] = result
+				legCongestion[result.Id] = result
 			}
 			// add leg into route
 			routeCongestion = append(routeCongestion, legCongestion)
@@ -69,6 +97,7 @@ func SearchPath(originLat, originLon, destinationLat, destinationLon float64) []
 	}
 
 	output.Print(consts.Service, "Generate routes with point-congestion successfully")
+	fmt.Println(routesCongestion)
 	return routesCongestion
 }
 
@@ -107,7 +136,7 @@ func Worker(jobs <-chan Point, results chan<- Point, wg *sync.WaitGroup) {
 		congestion := CalPointCongestion(j.Lat, j.Lon)
 
 		var result Point
-		result.Index = j.Index
+		result.Id = j.Id
 		result.Lat = j.Lat
 		result.Lon = j.Lon
 		result.Congestion = congestion

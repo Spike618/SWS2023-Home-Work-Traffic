@@ -41,7 +41,7 @@ type TrafficResponse struct {
 		FreeFlowSpeed      float64 `json:"freeFlowSpeed"`
 		CurrentTravelTime  float64 `json:"currentTravelTime"`
 		FreeFlowTravelTime float64 `json:"freeFlowTravelTime"`
-		Confidence         int     `json:"confidence"`
+		Confidence         float64 `json:"confidence"`
 		RoadClosure        bool    `json:"roadClosure"`
 		Coordinates        struct {
 			Coordinate []struct {
@@ -53,13 +53,6 @@ type TrafficResponse struct {
 	Version string `json:"@version"`
 }
 
-type Point struct {
-	Index      int
-	Lat        float64
-	Lon        float64
-	Congestion int
-}
-
 type Road struct {
 	Camera []struct {
 		Type      int     `json:"type"`
@@ -67,4 +60,11 @@ type Road struct {
 		Latitude  float64 `json:"latitude"`
 		Longitude float64 `json:"longitude"`
 	} `json:"road"`
+}
+
+type Point struct {
+	Id         int
+	Lat        float64
+	Lon        float64
+	Congestion int
 }
