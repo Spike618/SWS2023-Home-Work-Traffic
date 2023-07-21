@@ -4,6 +4,7 @@ import (
 	"demo/src/consts"
 	"demo/src/output"
 	"demo/src/utils"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
@@ -15,9 +16,9 @@ func AUTHMiddleware() gin.HandlerFunc {
 
 		// for login, go through middleware without authentic
 		url := c.Request.URL.String()
-		if strings.Contains(url, "/user/login") ||
-			strings.Contains(url, "/admin/login") ||
-			strings.Contains(url, "/user/register") {
+		if strings.Contains(url, "camera") ||
+			strings.Contains(url, "login") ||
+			strings.Contains(url, "register") {
 			c.Next()
 			return
 		}
@@ -54,7 +55,7 @@ func AUTHMiddleware() gin.HandlerFunc {
 				})
 				c.Abort()
 			} else {
-				output.Print("Middleware", "Authentic success. ID = "+string(userId))
+				output.Print("Middleware", "Authentic success. ID = "+fmt.Sprintf("%d", userId))
 				// put userId into c for following process
 				c.Set("UserId", userId)
 				c.Next()

@@ -22,7 +22,7 @@ func InitRoadGraph() error {
 	}
 
 	// Read the JSON data from a file
-	data, err := ioutil.ReadFile(wd + "\\config\\graph.json")
+	data, err := ioutil.ReadFile(wd + "//config//graph.json")
 	if err != nil {
 		fmt.Println("Error reading the file:", err)
 		return err
@@ -46,7 +46,7 @@ func GetCameraCongestion() [][]Point {
 		fmt.Println("Error:", err)
 		return [][]Point{}
 	}
-	opencast, err := os.Open(wd + "\\config\\result.csv")
+	opencast, err := os.Open(wd + "//config//result.csv")
 	if err != nil {
 		log.Println("csv文件打开失败！")
 		return [][]Point{}
@@ -56,7 +56,6 @@ func GetCameraCongestion() [][]Point {
 	// read content
 	ReadCsv := csv.NewReader(opencast)
 	ReadAll, err := ReadCsv.ReadAll()
-	fmt.Println()
 
 	// get camera congestion from s3
 	cameraMap := make(map[int]Point, 0)
@@ -64,6 +63,7 @@ func GetCameraCongestion() [][]Point {
 		record := ReadAll[i]
 		id, _ := strconv.Atoi(record[0])
 		congestion, _ := strconv.Atoi(record[18])
+		fmt.Println(congestion)
 		cameraMap[id] = Point{Id: id, Congestion: congestion}
 	}
 
