@@ -9,6 +9,11 @@
         <div id='finishSearchBox' class='searchbox-container'>
           <div class='tt-icon tt-icon-size icon-spacing-right -finish'></div>
         </div>
+        <br><br>
+        <div class="history-box">
+          <h3>History</h3>
+          <div v-for="point in history" @click="fillSearchBox(point)">{{ point }}</div>
+        </div>
       </form>
     </div>
   </div>
@@ -43,6 +48,7 @@ export default {
       closeButton: null,
       startSearchboxInput: null,
       errorHint: null,
+      history: ['The Merlion, 30 Imbiah Road, Singapore, 099705', 'Kent Ridge'],
 
       points: [],
 
@@ -75,7 +81,7 @@ export default {
   methods: {
     initMap() {
       this.map = tt.map({
-        key: "QGERbwNF17TpCAS2TGvRXN1yJGwuChG8",
+        key: "bId63y2w4uPBRnpIvmnYn8jwbTUhEEmR",
         container: "map",
       });
       this.map.on('load', () => {
@@ -89,6 +95,12 @@ export default {
           })
       );
       this.map.addControl(new tt.NavigationControl());
+    },
+
+    fillSearchBox(point) {
+      this.startSearchbox.setValue(point);
+      this.state.start = point;
+      // 或者填充终点：this.state.finish = point;
     },
 
     checkMapCreated() {
@@ -123,16 +135,21 @@ export default {
         })),
 
             console.log(data);
-            data.forEach((item) => {
-              const id = item.Id;
-              const congestion = item.Congestion;
-              const latitude = item.Lat;
-              const longitude = item.Lon;
-              const location = [longitude, latitude];
-              const marker = new tt.Marker().setLngLat(toRaw(location)).addTo(toRaw(this.map));
-              const popup = new tt.Popup({offset: popupOffsets}).setText(congestion.toString());
-              marker.setPopup(popup);
-            });
+        data.forEach((item) => {
+          const id = item.Id;
+          const congestion = item.Congestion;
+          const latitude = item.Lat;
+          const longitude = item.Lon;
+          const location = [longitude, latitude];
+          let color = this.getColor(congestion);
+          const marker = new tt.Marker({
+            color: color,
+          }
+        ).
+          setLngLat(toRaw(location)).addTo(toRaw(this.map));
+          const popup = new tt.Popup({offset: popupOffsets}).setText(congestion.toString());
+          marker.setPopup(popup);
+        });
         // this.drawRoutes();
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -151,7 +168,7 @@ export default {
       };
 
       for (let i = 0; i < route.length - 1; i++) {
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 400));
         const popupOffsets = {
           top: [0, 0],
           bottom: [0, -30],
@@ -164,7 +181,7 @@ export default {
         const Lat1 = route[i].Lat;
         const Lon2 = route[i + 1].Lon;
         const Lat2 = route[i + 1].Lat;
-        const AvgCongestion = route[i].Congestion + route[i+1].Congestion / 2;
+        const AvgCongestion = route[i].Congestion + route[i + 1].Congestion / 2;
         const color = this.getColor(AvgCongestion);
         let p1 = [Lon1, Lat1];
         let p2 = [Lon2, Lat2];
@@ -174,10 +191,10 @@ export default {
         // marker1.setPopup(popup);
         // marker2.setPopup(new tt.Popup({offset: popupOffsets}).setText('2'));
         let key = null;
-        if (i%2 === 0) {
-          key = 'wUIehlXj4kLvG4iYiDAvvjoA4OXdA3Mu';
+        if (i % 2 === 0) {
+          key = 'bId63y2w4uPBRnpIvmnYn8jwbTUhEEmR';
         } else {
-          key = 'QGERbwNF17TpCAS2TGvRXN1yJGwuChG8'
+          key = 'bId63y2w4uPBRnpIvmnYn8jwbTUhEEmR'
         }
         tt.services
             .calculateRoute({
@@ -216,13 +233,13 @@ export default {
     },
 
     getColor(congestion) {
-      console.log('congestion: '+congestion)
+      console.log('congestion: ' + congestion)
       const colors = ['#2faaff', '#ff0000', '#00ff00', '#ffff00', '#ff00ff'];
       if (congestion === 1) {
-        return colors[2];
+        return colors[0];
       } else if (congestion === 1.5) {
         return colors[0];
-      } else if (congestion===2) {
+      } else if (congestion === 2) {
         return colors[3];
       } else return colors[1];
     },
@@ -245,7 +262,7 @@ export default {
       marker2.setPopup(new tt.Popup({offset: popupOffsets}).setText('2'));
       tt.services
           .calculateRoute({
-            key: 'QGERbwNF17TpCAS2TGvRXN1yJGwuChG8',
+            key: 'bId63y2w4uPBRnpIvmnYn8jwbTUhEEmR',
             locations: p1 + ':' + p2,
             travelMode: 'car',
           })
@@ -335,7 +352,7 @@ export default {
       this.state.start = [position.coords.longitude, position.coords.latitude];
 
       tt.services.reverseGeocode({
-        key: 'QGERbwNF17TpCAS2TGvRXN1yJGwuChG8',
+        key: 'bId63y2w4uPBRnpIvmnYn8jwbTUhEEmR',
         position: this.state.start
       })
           .then(this.handleRevGeoResponse.bind(this))
@@ -380,7 +397,7 @@ export default {
     //   let finalPos = this.state.finish.join(',');
     //
     //   tt.services.calculateRoute({
-    //     key: 'QGERbwNF17TpCAS2TGvRXN1yJGwuChG8',
+    //     key: 'bId63y2w4uPBRnpIvmnYn8jwbTUhEEmR',
     //     traffic: true,
     //     locations: startPos + ':' + finalPos,
     //     maxAlternatives: 2,
@@ -423,7 +440,7 @@ export default {
       let finalPos = this.state.finish.join(',');
 
       tt.services.calculateRoute({
-        key: 'QGERbwNF17TpCAS2TGvRXN1yJGwuChG8',
+        key: 'bId63y2w4uPBRnpIvmnYn8jwbTUhEEmR',
         traffic: true,
         locations: startPos + ':' + finalPos,
         maxAlternatives: 2,
@@ -487,7 +504,7 @@ export default {
     //
     //   try {
     //     const response = await tt.services.calculateRoute({
-    //       key: 'QGERbwNF17TpCAS2TGvRXN1yJGwuChG8',
+    //       key: 'bId63y2w4uPBRnpIvmnYn8jwbTUhEEmR',
     //       traffic: true,
     //       locations: startPos + ':' + finalPos,
     //       maxAlternatives: 3,
@@ -717,7 +734,7 @@ export default {
       let searchBox = new tt.plugins.SearchBox(tt.services, {
         showSearchButton: true,
         searchOptions: {
-          key: 'QGERbwNF17TpCAS2TGvRXN1yJGwuChG8'
+          key: 'bId63y2w4uPBRnpIvmnYn8jwbTUhEEmR'
         },
         labels: {
           placeholder: 'Query e.g. Beijing'
@@ -824,5 +841,28 @@ export default {
   justify-content: center;
   transition: width .1s, height .1s;
   width: 32px;
+}
+
+.history-box {
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  padding: 10px;
+  max-height: 200px; /* 设置最大高度，超出部分会出现滚动条 */
+  overflow-y: auto; /* 设置垂直方向上出现滚动条 */
+}
+
+/* 每个历史记录项的样式 */
+.history-box > div {
+  cursor: pointer;
+  margin-bottom: 5px;
+  padding: 5px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* 选中历史记录项时的样式 */
+.history-box > div:hover {
+  background-color: #f8f8f8;
 }
 </style>
