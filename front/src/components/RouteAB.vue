@@ -30,7 +30,7 @@ import Foldable from '../assets/js/foldable'
 // import SearchBox from "../assets/js/search/search-box-web";
 import handleEnterSubmit from '../assets/js/search/searchbox-enter-submit.js'
 // import TailSelector from '../assets/js/tail-selector.js'
-import {test, getRoute} from "@/api/api";
+import {camera, getRoute} from "@/api/api";
 
 export default {
   name: "RouteAB",
@@ -75,7 +75,7 @@ export default {
   methods: {
     initMap() {
       this.map = tt.map({
-        key: "ze8YSxPAewmBAh4GbX0coKQz6Yuib3Bz",
+        key: "QGERbwNF17TpCAS2TGvRXN1yJGwuChG8",
         container: "map",
       });
       this.map.on('load', () => {
@@ -111,7 +111,7 @@ export default {
       };
 
       try {
-        const response = await test();
+        const response = await camera();
         console.log("111");
         const data = response.data;
 
@@ -122,13 +122,15 @@ export default {
           // congestion: item.congestion,
         })),
 
+            console.log(data);
             data.forEach((item) => {
               const id = item.Id;
+              const congestion = item.Congestion;
               const latitude = item.Lat;
               const longitude = item.Lon;
               const location = [longitude, latitude];
               const marker = new tt.Marker().setLngLat(toRaw(location)).addTo(toRaw(this.map));
-              const popup = new tt.Popup({offset: popupOffsets}).setText(id.toString());
+              const popup = new tt.Popup({offset: popupOffsets}).setText(congestion.toString());
               marker.setPopup(popup);
             });
         // this.drawRoutes();
@@ -137,7 +139,7 @@ export default {
       }
     },
 
-    drawRoutes(route) {
+    async drawRoutes(route) {
       console.log('draw');
       const popupOffsets = {
         top: [0, 0],
@@ -149,6 +151,7 @@ export default {
       };
 
       for (let i = 0; i < route.length - 1; i++) {
+        await new Promise(resolve => setTimeout(resolve, 500));
         const popupOffsets = {
           top: [0, 0],
           bottom: [0, -30],
@@ -158,20 +161,27 @@ export default {
           right: [-25, -35]
         };
         const Lon1 = route[i].Lon;
-        console.log(route[i].Lon);
         const Lat1 = route[i].Lat;
-        const Lon2 = route[i+1].Lon;
-        const Lat2 = route[i+1].Lat;
+        const Lon2 = route[i + 1].Lon;
+        const Lat2 = route[i + 1].Lat;
+        const AvgCongestion = route[i].Congestion + route[i+1].Congestion / 2;
+        const color = this.getColor(AvgCongestion);
         let p1 = [Lon1, Lat1];
         let p2 = [Lon2, Lat2];
-        const marker1 = new tt.Marker().setLngLat(toRaw(p1)).addTo(toRaw(this.map));
-        const marker2 = new tt.Marker().setLngLat(toRaw(p2)).addTo(toRaw(this.map));
-        const popup = new tt.Popup({offset: popupOffsets}).setText('1');
-        marker1.setPopup(popup);
-        marker2.setPopup(new tt.Popup({offset: popupOffsets}).setText('2'));
+        // const marker1 = new tt.Marker().setLngLat(toRaw(p1)).addTo(toRaw(this.map));
+        // const marker2 = new tt.Marker().setLngLat(toRaw(p2)).addTo(toRaw(this.map));
+        // const popup = new tt.Popup({offset: popupOffsets}).setText('1');
+        // marker1.setPopup(popup);
+        // marker2.setPopup(new tt.Popup({offset: popupOffsets}).setText('2'));
+        let key = null;
+        if (i%2 === 0) {
+          key = 'wUIehlXj4kLvG4iYiDAvvjoA4OXdA3Mu';
+        } else {
+          key = 'QGERbwNF17TpCAS2TGvRXN1yJGwuChG8'
+        }
         tt.services
             .calculateRoute({
-              key: 'ze8YSxPAewmBAh4GbX0coKQz6Yuib3Bz',
+              key: key,
               locations: p1 + ':' + p2,
               travelMode: 'car',
             })
@@ -179,14 +189,14 @@ export default {
               let geojson = response.toGeoJson();
               console.log("addRouteLayer");
               this.map.addLayer({
-                'id': 'route',
+                'id': i.toString(),
                 'type': 'line',
                 'source': {
                   'type': 'geojson',
                   'data': geojson
                 },
                 'paint': {
-                  'line-color': '#00d7ff',
+                  'line-color': color,
                   'line-width': 8
                 }
               });
@@ -196,13 +206,25 @@ export default {
               geojson.features[0].geometry.coordinates.forEach(function (point) {
                 bounds.extend(tt.LngLat.convert(point));
               });
-              this.map.fitBounds(bounds, {duration: 0, padding: 100});
+              // this.map.fitBounds(bounds, {duration: 0, padding: 100});
               // loadingHint.hide();
             })
             .catch((error) => {
               console.error('Error drawing route:', error);
             });
       }
+    },
+
+    getColor(congestion) {
+      console.log('congestion: '+congestion)
+      const colors = ['#2faaff', '#ff0000', '#00ff00', '#ffff00', '#ff00ff'];
+      if (congestion === 1) {
+        return colors[2];
+      } else if (congestion === 1.5) {
+        return colors[0];
+      } else if (congestion===2) {
+        return colors[3];
+      } else return colors[1];
     },
 
     testDrawRoutes() {
@@ -223,7 +245,7 @@ export default {
       marker2.setPopup(new tt.Popup({offset: popupOffsets}).setText('2'));
       tt.services
           .calculateRoute({
-            key: 'ze8YSxPAewmBAh4GbX0coKQz6Yuib3Bz',
+            key: 'QGERbwNF17TpCAS2TGvRXN1yJGwuChG8',
             locations: p1 + ':' + p2,
             travelMode: 'car',
           })
@@ -313,7 +335,7 @@ export default {
       this.state.start = [position.coords.longitude, position.coords.latitude];
 
       tt.services.reverseGeocode({
-        key: 'ze8YSxPAewmBAh4GbX0coKQz6Yuib3Bz',
+        key: 'QGERbwNF17TpCAS2TGvRXN1yJGwuChG8',
         position: this.state.start
       })
           .then(this.handleRevGeoResponse.bind(this))
@@ -344,6 +366,48 @@ export default {
       }
     },
 
+    // calculateRoute() {
+    //   if (this.map.getLayer('route')) {
+    //     this.map.removeLayer('route');
+    //     this.map.removeSource('route');
+    //   }
+    //
+    //   if (!this.state.start || !this.state.finish) {
+    //     return;
+    //   }
+    //   this.errorHint.hide();
+    //   let startPos = this.state.start.join(',');
+    //   let finalPos = this.state.finish.join(',');
+    //
+    //   tt.services.calculateRoute({
+    //     key: 'QGERbwNF17TpCAS2TGvRXN1yJGwuChG8',
+    //     traffic: true,
+    //     locations: startPos + ':' + finalPos,
+    //     maxAlternatives: 2,
+    //   })
+    //       .then(function (response) {
+    //         console.log(response.data);
+    //         let geojson = response.toGeoJson();
+    //         let lineColor = this.getLineRouteColor(i);
+    //         this.map.addLayer({
+    //           'id': 'route',
+    //           'type': 'line',
+    //           'source': {
+    //             'type': 'geojson',
+    //             'data': geojson
+    //           },
+    //           'paint': {
+    //             'line-color': '#2faaff',
+    //             'line-width': 8
+    //           }
+    //         }, this.findFirstBuildingLayerId());
+    //
+    //         let coordinates = geojson.features[0].geometry.coordinates;
+    //         this.updateRoutesBounds(coordinates);
+    //       }.bind(this))
+    //       .catch(this.handleError.bind(this));
+    // },
+
     calculateRoute() {
       if (this.map.getLayer('route')) {
         this.map.removeLayer('route');
@@ -353,35 +417,111 @@ export default {
       if (!this.state.start || !this.state.finish) {
         return;
       }
+
       this.errorHint.hide();
       let startPos = this.state.start.join(',');
       let finalPos = this.state.finish.join(',');
 
       tt.services.calculateRoute({
-        key: 'ze8YSxPAewmBAh4GbX0coKQz6Yuib3Bz',
-        traffic: false,
-        locations: startPos + ':' + finalPos
+        key: 'QGERbwNF17TpCAS2TGvRXN1yJGwuChG8',
+        traffic: true,
+        locations: startPos + ':' + finalPos,
+        maxAlternatives: 2,
       })
-          .then(function (response) {
-            let geojson = response.toGeoJson();
-            this.map.addLayer({
-              'id': 'route',
-              'type': 'line',
-              'source': {
-                'type': 'geojson',
-                'data': geojson
-              },
-              'paint': {
-                'line-color': '#2faaff',
-                'line-width': 8
-              }
-            }, this.findFirstBuildingLayerId());
+          .then((response) => {
+            console.log(response.data);
+            let routes = response.getRoutes();
+            let numRoutes = routes.length;
 
-            let coordinates = geojson.features[0].geometry.coordinates;
-            this.updateRoutesBounds(coordinates);
-          }.bind(this))
+            for (let i = 0; i < numRoutes; i++) {
+              let route = routes[i];
+              let geojson = route.toGeoJson();
+              let lineColor = this.getLineRouteColor(i); // Function to get color based on route index
+
+              this.map.addLayer({
+                'id': `route_${i}`,
+                'type': 'line',
+                'source': {
+                  'type': 'geojson',
+                  'data': geojson
+                },
+                'paint': {
+                  'line-color': lineColor,
+                  'line-width': 8
+                }
+              }, this.findFirstBuildingLayerId());
+
+              let coordinates = geojson.features[0].geometry.coordinates;
+              this.updateRoutesBounds(coordinates);
+            }
+          })
           .catch(this.handleError.bind(this));
     },
+
+
+    getLineRouteColor(routeIndex) {
+      // Here you can define different colors based on the route index.
+      // For example, you can use an array of colors and return the color
+      // based on the route index.
+
+      const colors = ['#2faaff', '#ff0000', '#00ff00', '#ffff00', '#ff00ff'];
+
+      // If the number of routes exceeds the number of predefined colors,
+      // you can cycle through the colors using the modulo operator.
+      return colors[routeIndex % colors.length];
+    },
+
+    // async calculateRoute() {
+    //   if (this.map.getLayer('route')) {
+    //     this.map.removeLayer('route');
+    //     this.map.removeSource('route');
+    //   }
+    //
+    //   if (!this.state.start || !this.state.finish) {
+    //     return;
+    //   }
+    //
+    //   this.errorHint.hide();
+    //   let startPos = this.state.start.join(',');
+    //   let finalPos = this.state.finish.join(',');
+    //
+    //   try {
+    //     const response = await tt.services.calculateRoute({
+    //       key: 'QGERbwNF17TpCAS2TGvRXN1yJGwuChG8',
+    //       traffic: true,
+    //       locations: startPos + ':' + finalPos,
+    //       maxAlternatives: 3,
+    //     });
+    //
+    //     console.log(response.data);
+    //
+    //     const routes = response.data.routes; // 获取多条路线数据
+    //     const routeColors = ['#FF5733', '#33FF57', '#5733FF', '#FF33A1', '#33A1FF'];
+    //
+    //     routes.forEach((route, index) => {
+    //       const geojson = route.toGeoJson();
+    //
+    //       this.map.addLayer({
+    //         'id': `route-${index}`, // 每条路线的图层ID
+    //         'type': 'line',
+    //         'source': {
+    //           'type': 'geojson',
+    //           'data': geojson
+    //         },
+    //         'paint': {
+    //           'line-color': routeColors[index % routeColors.length], // 根据索引选择颜色
+    //           'line-width': 8
+    //         }
+    //       });
+    //     });
+    //
+    //     let coordinates = geojson.features[0].geometry.coordinates;
+    //     this.updateRoutesBounds(coordinates);
+    //   } catch (error) {
+    //     this.handleError(error);
+    //   }
+    // },
+
 
     drawMarker(type, viewport) {
       // const position = this.state[type];
@@ -506,18 +646,18 @@ export default {
         let originLat = toRaw(this.state.start[1]);
         let destinationLon = toRaw(this.state.finish[0])
         let destinationLat = toRaw(this.state.finish[1])
-        // const data = {
-        //   'originLon': originLon,
-        //   'originLat': originLat,
-        //   'destinationLon': destinationLon,
-        //   'destinationLat': destinationLat
-        // }
         const data = {
-          'originLon': 103.785469,
-          'originLat': 1.298766,
-          'destinationLon': 103.779688,
-          'destinationLat': 1.292424
+          'originLon': originLon,
+          'originLat': originLat,
+          'destinationLon': destinationLon,
+          'destinationLat': destinationLat
         }
+        // const data = {
+        //   'originLon': 103.785469,
+        //   'originLat': 1.298766,
+        //   'destinationLon': 103.779688,
+        //   'destinationLat': 1.292424
+        // }
         console.log(data);
         const response = await getRoute(data);
         const respData = response.data;
@@ -577,7 +717,7 @@ export default {
       let searchBox = new tt.plugins.SearchBox(tt.services, {
         showSearchButton: true,
         searchOptions: {
-          key: 'ze8YSxPAewmBAh4GbX0coKQz6Yuib3Bz'
+          key: 'QGERbwNF17TpCAS2TGvRXN1yJGwuChG8'
         },
         labels: {
           placeholder: 'Query e.g. Beijing'

@@ -39,7 +39,7 @@
       />
     </el-form-item>
     <el-form-item>
-      <el-button @click="Justic_Register('Register')" type="primary" class="submit_btn">注册</el-button>
+      <el-button @click="Justic_Register('Register')" type="primary" class="submit_btn">Register</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -77,13 +77,13 @@ export default {
 
           console.log("data",data)
           register(JSON.stringify(data)).then((res: any) => {
-            console.log("res",res.data["code"])
-            if (res.data['code'] == 0) {
+            console.log("res",res.code)
+            if (res.code == 0) {
               alert("Register successfully!")
               router.push('/route')
             }
 
-            if (res.data['code'] == -1) {
+            if (res.code == -1) {
               ElMessage.error(res.data["msg"])
               router.push('/')
             }

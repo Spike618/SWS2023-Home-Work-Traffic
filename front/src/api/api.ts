@@ -37,9 +37,9 @@ export function changeMode(mode:string,id:any){
     })
 }
 
-export function test() {
+export function camera() {
     return service({
-        url: '/test',
+        url: '/camera',
         method: 'POST',
     })
 }

@@ -24,7 +24,7 @@
     </el-form-item>
 
     <el-form-item>
-      <el-button color="#0000000" @click="Justic_Login('Login')" class="submit_btn">Register</el-button>
+      <el-button color="#0000000" @click="Justic_Login('Login')" class="submit_btn">Login</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -63,7 +63,7 @@ export default {
             {
               const token = res.data['token']
               localStorage.setItem("token",token)
-              router.push('/admin')
+              router.push('/route')
             }
             if (res.data['code']==-1)
             {
