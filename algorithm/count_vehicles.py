@@ -1,6 +1,5 @@
 # YOLOv5 🚀 by Ultralytics, AGPL-3.0 license
 import os
-import platform
 import sys
 from pathlib import Path
 
@@ -18,40 +17,11 @@ from utils.general import (LOGGER, Profile, check_file, check_img_size, check_im
                            increment_path, non_max_suppression, print_args, scale_boxes, strip_optimizer, xyxy2xywh)
 from utils.plots import Annotator, colors, save_one_box
 from utils.torch_utils import select_device, smart_inference_mode
-# def my_count_vehicles(image_url):
-#     image = Image.open(requests.get(image_url,stream=True).raw)
-#     image = image.resize((450, 250))
-#     image_arr = np.array(image)
-
-#     grey = cv2.cvtColor(image_arr, cv2.COLOR_BGR2GRAY)
-#     Image.fromarray(grey)
-
-#     blur = cv2.GaussianBlur(grey, (5, 5), 0)
-#     Image.fromarray(blur)
-
-#     dilated = cv2.dilate(blur, np.ones((3, 3)))
-#     Image.fromarray(dilated)
-
-#     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2, 2))
-#     closing = cv2.morphologyEx(dilated, cv2.MORPH_CLOSE, kernel)
-#     # Image.fromarray(closing)
-
-#     car_cascade_src = 'cars.xml'
-#     car_cascade = cv2.CascadeClassifier(car_cascade_src)
-#     cars = car_cascade.detectMultiScale(closing, 1.1, 1)
-
-#     cnt = 0
-#     for (x, y, w, h) in cars:
-#         cv2.rectangle(image_arr, (x, y), (x + w, y + h), (255, 0, 0), 2)
-#         cnt += 1
-
-#     car, truck, bus, motorbike, tricycle = cnt, 0, 0, 0, 0
-#     return car, truck, bus, motorbike, tricycle  # 为和百度接口一致, 所以返回这五种车辆的数量
 
 # source是将要识别文件的url
 def my_count_vehicles(source):
-    weights=ROOT / 'v0_weight/best.pt'  # model path or triton URL
-    data=ROOT / 'data/coco128.yaml'  # dataset.yaml path
+    weights=ROOT / 'best.pt'  # model path or triton URL
+    data=ROOT / 'models/yolov5s.yaml'  # dataset.yaml path
     imgsz=(640, 640)  # inference size (height, width)
     conf_thres=0.25  # confidence threshold
     iou_thres=0.45  # NMS IOU threshold
