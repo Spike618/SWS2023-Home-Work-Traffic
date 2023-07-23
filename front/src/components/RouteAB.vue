@@ -11,8 +11,9 @@
         </div>
         <br><br>
         <div class="history-box">
-          <h3>History</h3>
-          <div v-for="point in history" @click="fillSearchBox(point)">{{ point }}</div>
+          <h3>Your Home&Company</h3>
+          <div id="home" @click="fillSearchBox('home')"><b>Home</b> {{ this.home }}</div>
+          <div id="company" @click="fillSearchBox('company')"><b>Company</b> {{ this.company }}</div>
         </div>
       </form>
     </div>
@@ -45,12 +46,20 @@ export default {
       map: undefined,
       bounds: null,
       startSearchbox: null,
+      finishSearchbox: null,
       closeButton: null,
       startSearchboxInput: null,
       errorHint: null,
       history: ['The Merlion, 30 Imbiah Road, Singapore, 099705', 'Kent Ridge'],
+      hmpoints: [],
+      home: null,
+      company: null,
+      homeLocation: [],
+      companyLocation: [],
 
       points: [],
+
+      routePoints: [],
 
       state: {
         start: undefined,
@@ -64,10 +73,11 @@ export default {
   },
   mounted() {
     this.initMap();
+    this.handleHomeCompany();
     new Foldable('#foldable', 'top-right');
     this.bounds = new tt.LngLatBounds();
     this.startSearchbox = this.createSearchBox('start');
-    this.createSearchBox('finish');
+    this.finishSearchbox = this.createSearchBox('finish');
     this.closeButton = document.querySelector('.tt-search-box-close-icon');
     this.startSearchboxInput = this.startSearchbox.getSearchBoxHTML().querySelector('.tt-search-box-input');
     this.startSearchboxInput.addEventListener('input', this.handleSearchboxInputChange.bind(this));
@@ -97,10 +107,38 @@ export default {
       this.map.addControl(new tt.NavigationControl());
     },
 
+    handleHomeCompany() {
+      let urlString = window.location.href.toString();
+      const urlParams = new URLSearchParams(urlString.split('?')[1]);
+      const points = urlParams.get('points');
+      this.hmpoints = points.toString().split(',');
+
+      this.homeLocation = [this.hmpoints[1], this.hmpoints[0]];
+      this.companyLocation = [this.hmpoints[3], this.hmpoints[2]];
+
+    },
+
     fillSearchBox(point) {
-      this.startSearchbox.setValue(point);
-      this.state.start = point;
-      // 或者填充终点：this.state.finish = point;
+      if (point === 'home') {
+        this.state.start = this.homeLocation;
+        tt.services.reverseGeocode({
+          key: 'bId63y2w4uPBRnpIvmnYn8jwbTUhEEmR',
+          position: this.state.start
+        })
+            .then(this.handleRevGeoResponse.bind(this))
+            .catch(this.handleError.bind(this));
+      } else if (point === 'company') {
+        this.state.finish = this.companyLocation;
+        tt.services.reverseGeocode({
+          key: 'bId63y2w4uPBRnpIvmnYn8jwbTUhEEmR',
+          position: this.state.finish
+        })
+            .then(this.handleFinishRevGeoResponse.bind(this))
+            .catch(this.handleError.bind(this));
+      }
+      if (this.state.start != null && this.state.finish != null) {
+        this.calculateRoute();
+      }
     },
 
     checkMapCreated() {
@@ -124,7 +162,7 @@ export default {
 
       try {
         const response = await camera();
-        console.log("111");
+        // console.log("111");
         const data = response.data;
 
         this.points = data.map((item) => ({
@@ -134,22 +172,21 @@ export default {
           // congestion: item.congestion,
         })),
 
-            console.log(data);
-        data.forEach((item) => {
-          const id = item.Id;
-          const congestion = item.Congestion;
-          const latitude = item.Lat;
-          const longitude = item.Lon;
-          const location = [longitude, latitude];
-          let color = this.getColor(congestion);
-          const marker = new tt.Marker({
-            color: color,
-          }
-        ).
-          setLngLat(toRaw(location)).addTo(toRaw(this.map));
-          const popup = new tt.Popup({offset: popupOffsets}).setText(congestion.toString());
-          marker.setPopup(popup);
-        });
+            // console.log(data);
+            data.forEach((item) => {
+              const id = item.Id;
+              const congestion = item.Congestion;
+              const latitude = item.Lat;
+              const longitude = item.Lon;
+              const location = [longitude, latitude];
+              let color = this.getColor(congestion);
+              const marker = new tt.Marker({
+                    color: color,
+                  }
+              ).setLngLat(toRaw(location)).addTo(toRaw(this.map));
+              const popup = new tt.Popup({offset: popupOffsets}).setText(congestion.toString());
+              marker.setPopup(popup);
+            });
         // this.drawRoutes();
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -233,7 +270,7 @@ export default {
     },
 
     getColor(congestion) {
-      console.log('congestion: ' + congestion)
+      // console.log('congestion: ' + congestion)
       const colors = ['#2faaff', '#ff0000', '#00ff00', '#ffff00', '#ff00ff'];
       if (congestion === 1) {
         return colors[0];
@@ -363,11 +400,20 @@ export default {
       let place = response.addresses[0];
       this.state.start = [place.position.lng, place.position.lat];
       this.startSearchbox.setValue(place.address.freeformAddress);
+      this.home = place.address.freeformAddress;
       this.onResultSelected(place, 'start');
     },
 
+    handleFinishRevGeoResponse(response) {
+      let place = response.addresses[0];
+      this.state.finish = [place.position.lng, place.position.lat];
+      this.finishSearchbox.setValue(place.address.freeformAddress);
+      this.company = place.address.freeformAddress;
+      this.onResultSelected(place, 'finish');
+    },
+
     handleError(error) {
-      this.errorHint.setErrorMessage(error);
+      // this.errorHint.setErrorMessage(error);
     },
 
     handleSearchboxInputChange(event) {
@@ -640,6 +686,13 @@ export default {
     },
 
     onResultSelected(result, type) {
+      if (this.routePoints != null) {
+        for (let i = 0; i < this.routePoints.length - 1; i++) {
+          this.map.removeLayer(i.toString());
+          this.map.removeSource(i.toString());
+        }
+        this.routePoints = [];
+      }
       const pos = result.position;
       this.state[type] = [pos.lng, pos.lat];
       console.log("accurate position")
@@ -675,7 +728,7 @@ export default {
         //   'destinationLon': 103.779688,
         //   'destinationLat': 1.292424
         // }
-        console.log(data);
+        // console.log(data);
         const response = await getRoute(data);
         const respData = response.data;
         const routes = respData[0];
@@ -684,13 +737,29 @@ export default {
         // for (const route in routes) {
         //   this.drawRoutes(route);
         // }
-        this.drawRoutes(routes[0]);
+        if (this.routePoints != null) {
+          for (let i = 0; i < this.routePoints.length - 1; i++) {
+            this.map.removeLayer(i.toString());
+            this.map.removeSource(i.toString());
+          }
+          this.routePoints = [];
+        }
+        this.routePoints = routes[0];
+        this.drawRoutes(this.routePoints);
       } catch (error) {
         console.error('Error fetching points data:', error);
       }
     },
 
     onResultCleared(type) {
+      if (this.routePoints != null) {
+        for (let i = 0; i < this.routePoints.length - 1; i++) {
+          this.map.removeLayer(i.toString());
+          this.map.removeSource(i.toString());
+        }
+        this.routePoints = [];
+      }
+
       this.state[type] = undefined;
 
       if (this.state.marker[type]) {

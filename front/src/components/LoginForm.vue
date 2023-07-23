@@ -50,23 +50,26 @@ export default {
       required: true,
     }
   },
-  setup(props:any) {
+  setup(props: any) {
     //@ts-ignore
     const {ctx} = getCurrentInstance()
     const Justic_Login = (foreName: string) => {
       ctx.$refs[foreName].validate((valid: boolean) => {
         if (valid) {
-          const data = {"Email":(props.loginUser.email),"Password":(props.loginUser.password)}
-          login(JSON.stringify(data)).then((res:any)=>{
+          const data = {"Email": (props.loginUser.email), "Password": (props.loginUser.password)}
+          login(JSON.stringify(data)).then((res: any) => {
             console.log(res)
-            if (res['code']==0)
-            {
-              const token = res.data['token']
-              localStorage.setItem("token",token)
-              router.push('/route')
+            if (res['code'] == 0) {
+              const token = res.data['token'];
+              console.log(res.data);
+              const pointsData = [res.data.point1.split(','), res.data.point2.split(',')];
+              const pointParams = encodeURIComponent(JSON.stringify(pointsData));
+              console.log(pointsData);
+              localStorage.setItem("token", token)
+              let path1 = '/route?points='+pointsData
+              router.push(path1)
             }
-            if (res.data['code']==-1)
-            {
+            if (res.data['code'] == -1) {
               console.log(res)
               failure()
             }
@@ -77,7 +80,7 @@ export default {
         }
       });
     };
-    const failure = ()=>{
+    const failure = () => {
       ElMessage('Wrong username or password!')
       console.log()
     }
@@ -94,21 +97,25 @@ export default {
   border-radius: 5px;
   box-shadow: 0px 5px 10px #085f77;
 }
-.submit_btn{
+
+.submit_btn {
   background-image: linear-gradient(-45deg, #000000 0%, #236b7f 100%);
   border-radius: 10px;
   border: 2px solid #085f77;
   width: 100%;
 }
+
 .input-transparent >>> .el-input__wrapper {
   background-color: transparent;
   border: 2px solid #085f77;
   box-shadow: none;
 }
+
 .input-transparent >>> .el-input__wrapper .el-input__inner {
   color: white;
 }
-.item_style >>> .el-form-item__label{
+
+.item_style >>> .el-form-item__label {
   color: white;
 }
 </style>

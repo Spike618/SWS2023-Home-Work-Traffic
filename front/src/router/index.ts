@@ -27,7 +27,8 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/route',
         name: 'Route',
-        component: () => import('../components/RouteAB.vue')
+        component: () => import('../components/RouteAB.vue'),
+        props: true
     }
 ]
 
