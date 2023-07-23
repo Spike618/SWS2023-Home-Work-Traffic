@@ -53,7 +53,6 @@
 
 import {ref} from "@vue/reactivity";
 import InfoEdit from "@/components/InfoEdit.vue";
-import SingleCharge from "@/components/SingleCharge.vue";
 import router from "@/router";
 
 const quit = () => {
