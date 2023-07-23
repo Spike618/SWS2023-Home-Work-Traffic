@@ -111,7 +111,9 @@ export default {
       let urlString = window.location.href.toString();
       const urlParams = new URLSearchParams(urlString.split('?')[1]);
       const points = urlParams.get('points');
-      this.hmpoints = points.toString().split(',');
+      if (points != null) {
+        this.hmpoints = points.toString().split(',');
+      }
 
       this.homeLocation = [this.hmpoints[1], this.hmpoints[0]];
       this.companyLocation = [this.hmpoints[3], this.hmpoints[2]];
