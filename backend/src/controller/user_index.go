@@ -11,14 +11,15 @@ import (
 )
 
 func UserIndexGet(c *gin.Context) {
-	// get camera congestion
-	output.Print(consts.Service, "get camera roads congestion")
-	cameraRoads := service.GetCameraCongestion()
+	// get camera congestion & camera roads congestion
+	cameras, _ := service.GetCongestion()
 
+	// process test
+	output.Print(consts.Controller, "load all cameras")
 	c.JSON(http.StatusOK, gin.H{
 		"code": consts.SUCCESS,
-		"msg":  cameraRoads,
-		"data": nil,
+		"msg":  "get cameras congestion",
+		"data": cameras,
 	})
 }
 

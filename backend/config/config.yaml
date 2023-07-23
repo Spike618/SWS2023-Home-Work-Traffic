@@ -1,6 +1,6 @@
 service:
   traffic_images_url: https://api.data.gov.sg/v1/transport/traffic-images/
-  tomtom_key: QGERbwNF17TpCAS2TGvRXN1yJGwuChG8 #bId63y2w4uPBRnpIvmnYn8jwbTUhEEmR
+  tomtom_key: ze8YSxPAewmBAh4GbX0coKQz6Yuib3Bz #bId63y2w4uPBRnpIvmnYn8jwbTUhEEmR
   tomtom_route_url: https://api.tomtom.com/routing/1/calculateRoute/
   tomtom_traffic_url: https://api.tomtom.com/traffic/services/4/flowSegmentData/relative0/10/
   baidu_url: https://aip.baidubce.com/rest/2.0/image-classify/v1/vehicle_detect?access_token=24.0fc731ae4c8138e6eefcaf3eb274ea01.2592000.1691808843.282335-36100278
@@ -11,7 +11,7 @@ system:
 traffic:
   worker_size: 10
   cur_free_low: 1
-  cur_free_high: 2
+  cur_free_high: 1.3
   point_threshold: 10
 
 database:
@@ -21,5 +21,11 @@ database:
   username: admin
   password: password
 
+camera_process:
+  url: http://172.25.98.114
+  port: 5000
+
 s3:
-  access_key_id:
+  access_key_id: ASIAULQIPMQXED4PEW53
+  secret_access_key: Js95mnd5wWiNu3Jh+gABicaSdJHZz84ZVvqXekow
+  region: us-east-1

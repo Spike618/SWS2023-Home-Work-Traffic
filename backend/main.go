@@ -39,7 +39,7 @@ func main() {
 		service.Init()
 
 		output.Print("Main", "Init dao layer")
-		dao.Init()
+		//dao.Init()
 
 		output.Print(consts.Main, "Gin Start")
 		router.CreateServer()

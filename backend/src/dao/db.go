@@ -16,10 +16,9 @@ func InitDb() {
 	var err error
 
 	// link
-	db, err = sql.Open("mysql", config.GetYamlConfig().Database.Username+
-		":"+config.GetYamlConfig().Database.Password+
-		fmt.Sprintf("@tcp(%s:%s)", config.GetYamlConfig().Database.Url, config.GetYamlConfig().Database.Port)+
-		"/"+config.GetYamlConfig().Database.DbName)
+	dbConfig := config.GetYamlConfig().Database
+	db, err = sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
+		dbConfig.Username, dbConfig.Password, dbConfig.Url, dbConfig.Port, dbConfig.DbName))
 	if err != nil {
 		fmt.Println(err)
 		output.Print(consts.Dao, "Open database fail!")

@@ -33,6 +33,16 @@ type YamlConfig struct {
 		Username string `yaml:"username"`
 		Password string `yaml:"password"`
 	} `yaml:"database"`
+
+	CameraProcess struct {
+		Url  string `yaml:"url"`
+		Port string `yaml:"port"`
+	} `yaml:"camera_process"`
+	S3 struct {
+		AccessKeyId     string `yaml:"access_key_id"`
+		SecretAccessKey string `yaml:"secret_access_key"`
+		Region          string `yaml:"region"`
+	} `yaml:"s3"`
 }
 
 var yamlConfig YamlConfig

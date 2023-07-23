@@ -12,9 +12,8 @@ func CreateServer() {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 	router.Use(middleware.CROSMiddleware(), middleware.AUTHMiddleware())
-	//router.Use(middleware.CROSMiddleware())
 
-	// camera
+	// camera page
 	router.POST("/camera", controller.Camera)
 
 	// admin
