@@ -15,6 +15,11 @@ NUS SWS2023 Cloud computing with big data project
 
 ## deployment ###
 
+### EC2 ###
+- upload our model to the EC2
+- use flask to run our model on the server, and receive the request
+- use boto3 to send the result to the AWS S3
+
 ### EMR ###
 - configure enviroment using bootstrap action script
 - upload files to cluster from S3 bucket
