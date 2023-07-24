@@ -22,20 +22,9 @@
 
 <script>
 import {toRaw} from 'vue'
-// import tt from '@tomtom-international/web-sdk-maps';
-// import SearchBox from '@tomtom-international/web-sdk-plugin-searchbox';
-// import SearchBox from '@tomtom-international/web-sdk-maps';
-// import Tabs from '../assets/js/search/tabs.js'
-// import SearchBox from 'https://api.tomtom.com/maps-sdk-for-web/cdn/plugins/SearchBox/3.2.0//SearchBox-web.js'
-// import SearchMarkersManager from '../assets/js/search-markers/search-markers-manager.js'
-import InfoHint from '../assets/js/info-hint.js'
-// import ResultsManager from '../assets/js/search/results-manager.js'
-// import ButtonsGroup from '../assets/js/buttons-group'
-// import SearchBox from '@tomtom-international/web-sdk-plugin-searchbox';
-import Foldable from '../assets/js/foldable'
-// import SearchBox from "../assets/js/search/search-box-web";
-import handleEnterSubmit from '../assets/js/search/searchbox-enter-submit.js'
-// import TailSelector from '../assets/js/tail-selector.js'
+import InfoHint from '@/assets/js/info-hint.js'
+import Foldable from '@/assets/js/foldable'
+import handleEnterSubmit from '@/assets/js/search/searchbox-enter-submit.js'
 import {camera, getRoute} from "@/api/api";
 
 export default {
@@ -224,11 +213,6 @@ export default {
         const color = this.getColor(AvgCongestion);
         let p1 = [Lon1, Lat1];
         let p2 = [Lon2, Lat2];
-        // const marker1 = new tt.Marker().setLngLat(toRaw(p1)).addTo(toRaw(this.map));
-        // const marker2 = new tt.Marker().setLngLat(toRaw(p2)).addTo(toRaw(this.map));
-        // const popup = new tt.Popup({offset: popupOffsets}).setText('1');
-        // marker1.setPopup(popup);
-        // marker2.setPopup(new tt.Popup({offset: popupOffsets}).setText('2'));
         let key = null;
         if (i % 2 === 0) {
           key = 'bId63y2w4uPBRnpIvmnYn8jwbTUhEEmR';
@@ -256,14 +240,10 @@ export default {
                   'line-width': 8
                 }
               });
-              // state.routeId = 'route';
-              // state.routePoints = geojson.features[0].geometry.coordinates;
               let bounds = new tt.LngLatBounds();
               geojson.features[0].geometry.coordinates.forEach(function (point) {
                 bounds.extend(tt.LngLat.convert(point));
               });
-              // this.map.fitBounds(bounds, {duration: 0, padding: 100});
-              // loadingHint.hide();
             })
             .catch((error) => {
               console.error('Error drawing route:', error);
@@ -272,7 +252,6 @@ export default {
     },
 
     getColor(congestion) {
-      // console.log('congestion: ' + congestion)
       const colors = ['#2faaff', '#ff0000', '#00ff00', '#ffff00', '#ff00ff'];
       if (congestion === 1) {
         return colors[0];
@@ -301,7 +280,7 @@ export default {
       marker2.setPopup(new tt.Popup({offset: popupOffsets}).setText('2'));
       tt.services
           .calculateRoute({
-            key: 'ze8YSxPAewmBAh4GbX0coKQz6Yuib3Bz',
+            key: 'wUIehlXj4kLvG4iYiDAvvjoA4OXdA3Mu',
             locations: p1 + ':' + p2,
             travelMode: 'car',
           })
@@ -431,48 +410,6 @@ export default {
       }
     },
 
-    // calculateRoute() {
-    //   if (this.map.getLayer('route')) {
-    //     this.map.removeLayer('route');
-    //     this.map.removeSource('route');
-    //   }
-    //
-    //   if (!this.state.start || !this.state.finish) {
-    //     return;
-    //   }
-    //   this.errorHint.hide();
-    //   let startPos = this.state.start.join(',');
-    //   let finalPos = this.state.finish.join(',');
-    //
-    //   tt.services.calculateRoute({
-    //     key: 'bId63y2w4uPBRnpIvmnYn8jwbTUhEEmR',
-    //     traffic: true,
-    //     locations: startPos + ':' + finalPos,
-    //     maxAlternatives: 2,
-    //   })
-    //       .then(function (response) {
-    //         console.log(response.data);
-    //         let geojson = response.toGeoJson();
-    //         let lineColor = this.getLineRouteColor(i);
-    //         this.map.addLayer({
-    //           'id': 'route',
-    //           'type': 'line',
-    //           'source': {
-    //             'type': 'geojson',
-    //             'data': geojson
-    //           },
-    //           'paint': {
-    //             'line-color': '#2faaff',
-    //             'line-width': 8
-    //           }
-    //         }, this.findFirstBuildingLayerId());
-    //
-    //         let coordinates = geojson.features[0].geometry.coordinates;
-    //         this.updateRoutesBounds(coordinates);
-    //       }.bind(this))
-    //       .catch(this.handleError.bind(this));
-    // },
-
     calculateRoute() {
       if (this.map.getLayer('route')) {
         this.map.removeLayer('route');
@@ -501,7 +438,7 @@ export default {
             for (let i = 0; i < numRoutes; i++) {
               let route = routes[i];
               let geojson = route.toGeoJson();
-              let lineColor = this.getLineRouteColor(i); // Function to get color based on route index
+              let lineColor = this.getLineRouteColor(i);
 
               this.map.addLayer({
                 'id': `route_${i}`,
@@ -525,115 +462,26 @@ export default {
 
 
     getLineRouteColor(routeIndex) {
-      // Here you can define different colors based on the route index.
-      // For example, you can use an array of colors and return the color
-      // based on the route index.
-
       const colors = ['#2faaff', '#ff0000', '#00ff00', '#ffff00', '#ff00ff'];
 
-      // If the number of routes exceeds the number of predefined colors,
-      // you can cycle through the colors using the modulo operator.
       return colors[routeIndex % colors.length];
     },
 
-    // async calculateRoute() {
-    //   if (this.map.getLayer('route')) {
-    //     this.map.removeLayer('route');
-    //     this.map.removeSource('route');
-    //   }
-    //
-    //   if (!this.state.start || !this.state.finish) {
-    //     return;
-    //   }
-    //
-    //   this.errorHint.hide();
-    //   let startPos = this.state.start.join(',');
-    //   let finalPos = this.state.finish.join(',');
-    //
-    //   try {
-    //     const response = await tt.services.calculateRoute({
-    //       key: 'bId63y2w4uPBRnpIvmnYn8jwbTUhEEmR',
-    //       traffic: true,
-    //       locations: startPos + ':' + finalPos,
-    //       maxAlternatives: 3,
-    //     });
-    //
-    //     console.log(response.data);
-    //
-    //     const routes = response.data.routes; // 获取多条路线数据
-    //     const routeColors = ['#FF5733', '#33FF57', '#5733FF', '#FF33A1', '#33A1FF'];
-    //
-    //     routes.forEach((route, index) => {
-    //       const geojson = route.toGeoJson();
-    //
-    //       this.map.addLayer({
-    //         'id': `route-${index}`, // 每条路线的图层ID
-    //         'type': 'line',
-    //         'source': {
-    //           'type': 'geojson',
-    //           'data': geojson
-    //         },
-    //         'paint': {
-    //           'line-color': routeColors[index % routeColors.length], // 根据索引选择颜色
-    //           'line-width': 8
-    //         }
-    //       });
-    //     });
-    //
-    //     let coordinates = geojson.features[0].geometry.coordinates;
-    //     this.updateRoutesBounds(coordinates);
-    //   } catch (error) {
-    //     this.handleError(error);
-    //   }
-    // },
-
-
     drawMarker(type, viewport) {
-      // const position = this.state[type];
-      //
-      // if (!position) {
-      //   return;
-      // }
-      //
-      // const markerOptions = {
-      //   element: this.createMarkerElement(type),
-      //   anchor: 'bottom'
-      // };
-      //
-      // let marker = null;
-      // if (this.state.marker[type]) {
-      //   marker = Object.assign({}, this.state.marker[type]);
-      //   marker.setPopup(null);
-      //   marker.setLngLat(position);
-      // } else {
-      //   marker = new tt.Marker(toRaw(markerOptions))
-      //       .setLngLat(toRaw(position))
-      //       .addTo(toRaw(this.map));
-      // }
-      //
-      // this.state.marker[type] = marker;
-      //
-      // if (viewport) {
-      //   this.updateBounds(viewport);
-      // }
       if (this.state.marker[type]) {
         this.state.marker[type].remove();
       }
 
-      // Create a regular (non-reactive) marker element
       let marker = document.createElement('div');
       let innerElement = document.createElement('div');
       marker.className = 'route-marker';
       innerElement.className = 'icon tt-icon -white -' + type;
       marker.appendChild(innerElement);
 
-      // Convert the reactive state[type] to a non-reactive regular object
       const position = toRaw(this.state[type]);
 
-      // Convert the reactive map to a non-reactive regular object (assuming it's defined as a data property)
       const map = toRaw(this.map);
 
-      // Create the non-reactive marker using the regular objects
       this.state.marker[type] = new tt.Marker({element: marker})
           .setLngLat(position)
           .addTo(map);
@@ -724,21 +572,11 @@ export default {
           'destinationLon': destinationLon,
           'destinationLat': destinationLat
         }
-        // const data = {
-        //   'originLon': 103.785469,
-        //   'originLat': 1.298766,
-        //   'destinationLon': 103.779688,
-        //   'destinationLat': 1.292424
-        // }
-        // console.log(data);
         const response = await getRoute(data);
         const respData = response.data;
         const routes = respData[0];
         console.log(routes);
         console.log(routes[0]);
-        // for (const route in routes) {
-        //   this.drawRoutes(route);
-        // }
         if (this.routePoints != null) {
           for (let i = 0; i < this.routePoints.length - 1; i++) {
             this.map.removeLayer(i.toString());
@@ -837,8 +675,6 @@ export default {
 <style>
 @import url('../assets/ui-library/index.css');
 @import url('../assets/ui-library/icons-css/routing.css');
-/*@import "node_modules/@tomtom-international/web-sdk-plugin-searchbox/dist/SearchBox.css";*/
-/*@import url('../assets/ui-library/icons-css/poi.css');*/
 @import url('../assets/ui-library/search-box.css');
 
 
@@ -918,11 +754,10 @@ export default {
   background-color: #f1f1f1;
   border: 1px solid #ccc;
   padding: 10px;
-  max-height: 200px; /* 设置最大高度，超出部分会出现滚动条 */
-  overflow-y: auto; /* 设置垂直方向上出现滚动条 */
+  max-height: 200px;
+  overflow-y: auto;
 }
 
-/* 每个历史记录项的样式 */
 .history-box > div {
   cursor: pointer;
   margin-bottom: 5px;
@@ -932,7 +767,6 @@ export default {
   border-radius: 4px;
 }
 
-/* 选中历史记录项时的样式 */
 .history-box > div:hover {
   background-color: #f8f8f8;
 }
