@@ -6,6 +6,8 @@ NUS SWS2023 Cloud computing with big data project
 ### model ###
 
 ### performance ###
+![image](https://github.com/Spike618/SWS2023-Home-Work-Traffic/assets/81232694/0caedfb7-ef54-455c-a8cb-1242936564a2)
+`details are in file:` [CVresults]([https://github.com/Spike618/SWS2023-Home-Work-Traffic/edit/master/README.md](https://github.com/Spike618/SWS2023-Home-Work-Traffic/tree/master/CVresult))
 
 
 
